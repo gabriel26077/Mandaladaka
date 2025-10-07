@@ -17,6 +17,15 @@ Mandaladaka
 ### Descrição
 Um AppWeb de gerenciamento de restaurante para auxiliar na organização de mesas, pedidos e ítens disponíveis no estoque/cardápio.
 
+## Modelagem e Diagramas UML
+
+A arquitetura e o comportamento do sistema foram modelados utilizando diagramas UML para garantir clareza e consistência no desenvolvimento.
+
+- **Diagrama de Classes:** Detalha a estrutura estática, as classes e seus relacionamentos.
+- **Diagrama de Casos de Uso:** Mostra as funcionalidades do sistema pela perspectiva dos usuários (Atores).
+
+Os diagramas visuais estão localizados na pasta `/diagrams` e a documentação detalhada sobre eles pode ser encontrada no arquivo `Diagramas.md`.
+
 ### Componentes
 - Gabriel Sebastião do Nascimento Neto
 - Sara Gabrielly do Nascimento Silva
