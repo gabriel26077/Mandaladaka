@@ -5,6 +5,7 @@ export default function Header() {
     <header className={styles.appHeader}>
       <div className={styles.searchBar}>
         <input type="text" placeholder="Procure por produto ou pedido" />
+        <img src="/icons/search.png" alt="Pesquisar" />
       </div>
       <div className={styles.headerActions}>
         <span className={styles.dateTime}>18 de Outubro 2025, 10:00AM</span>
