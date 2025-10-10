@@ -61,14 +61,27 @@
     padding: 0 2rem;
 }
 
+.searchBar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
 .searchBar input {
     width: 350px;
-    padding: 0.8rem 1rem;
+    padding: 0.8rem 2.5rem 0.8rem 1rem;
     border-radius: 8px;
     border: 1px solid #DDD;
     background-color: #f7f7f7;
 }
 
+.searchBar img {
+    position: absolute;
+    right: 0.8rem;
+    width: 20px;
+    height: 20px;
+    opacity: 0.6;
+}
 .headerActions {
     display: flex;
     align-items: center;
@@ -114,7 +127,7 @@
 
 .tablesGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    grid-template-columns: repeat(5, 1fr);
     gap: 1.5rem;
     flex-grow: 1;
     overflow-y: auto;
@@ -132,6 +145,8 @@
     aspect-ratio: 1 / 1;
     cursor: pointer;
     transition: border 0.2s;
+    max-width: 140px;
+    margin: 0 auto; 
 }
 
 .tableCardContent {
@@ -155,6 +170,10 @@
     font-weight: 600;
     color: var(--color-text-secondary);
     margin-top: -15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .tableCard.selected {
@@ -224,7 +243,6 @@
     cursor: pointer;
 }
 
-/* ===== Seção de Pedido ===== */
 .orderSection {
     background-color: var(--color-surface);
     border-radius: 12px;
