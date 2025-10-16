@@ -59,7 +59,7 @@ export default function HomePage() {
         <div className={styles.orderHeader}>
           <h2>PEDIDO #</h2>
           <div className={styles.orderInfo}>
-            <span><img src="/icons/user.png" alt="Ícone Cliente" />CLIENTE</span>
+            <span><img src="/icons/guess.png" alt="Ícone Cliente" />CLIENTE</span>
             <span><img src="/icons/table.png" alt="Ícone Mesa" />MESA</span>
           </div>
         </div>
