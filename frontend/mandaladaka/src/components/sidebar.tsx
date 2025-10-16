@@ -3,7 +3,12 @@ import styles from '../app/home.module.css';
 export default function Sidebar() {
   return (
     <aside className={styles.sidebar}>
-      <h1 className={styles.logo}>MDK</h1>
+      <img 
+        src="/icons/mdk_com.png" 
+        alt="MDK Logo" 
+        className={styles.logo} 
+      />
+      
       <nav className={styles.sidebarNav}>
         <ul>
           <li className={`${styles.navItem} ${styles.active}`}>
