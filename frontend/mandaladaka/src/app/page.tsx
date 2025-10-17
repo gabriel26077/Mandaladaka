@@ -54,20 +54,6 @@ export default function HomePage() {
           <button className={styles.btnConfirm}>CONTINUAR</button>
         </div>
       </section>
-
-      <section className={styles.orderSection}>
-        <div className={styles.orderHeader}>
-          <h2>PEDIDO #</h2>
-          <div className={styles.orderInfo}>
-            <span><img src="/icons/guess.png" alt="Ícone Cliente" />CLIENTE</span>
-            <span><img src="/icons/table.png" alt="Ícone Mesa" />MESA</span>
-          </div>
-        </div>
-        <div className={styles.orderBodyEmpty}>
-          <img src="/icons/empty-order-icon.png" alt="Pedido Vazio" />
-          <p>PEDIDO VAZIO</p>
-        </div>
-      </section>
     </main>
   );
 }
