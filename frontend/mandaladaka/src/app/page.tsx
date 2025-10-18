@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './home.module.css';
 
 const tablesData = [
@@ -11,6 +12,7 @@ const tablesData = [
 export default function HomePage() {
   const [selectedTable, setSelectedTable] = useState('T1');
   const [personCount, setPersonCount] = useState(2);
+  const router = useRouter();
 
   const handleSelectTable = (tableName: string) => {
     setSelectedTable(tableName);
@@ -19,6 +21,12 @@ export default function HomePage() {
 
   const handlePersonCountChange = (amount: number) => {
     setPersonCount(prevCount => Math.max(1, prevCount + amount));
+  };
+
+  const handleContinue = () => {
+    if (selectedTable && personCount > 0) {
+      router.push(`/menu?table=${selectedTable}&clients=${personCount}`);
+    }
   };
 
   return (
@@ -51,7 +59,7 @@ export default function HomePage() {
             <span>MESA: <strong>{selectedTable}</strong></span>
             <span>CLIENTES: <strong>{personCount}</strong></span>
           </div>
-          <button className={styles.btnConfirm}>CONTINUAR</button>
+          <button onClick = {handleContinue} className={styles.btnConfirm}>CONTINUAR</button>
         </div>
       </section>
     </main>
