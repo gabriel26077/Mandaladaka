@@ -35,7 +35,6 @@ export default function Header() {
         <span className={styles.dateTime}>
           {formattedDateTime || 'Carregando...'}
         </span>
-        <button className={styles.btnAddTable}>+ ADD MESA</button>
       </div>
     </header>
   );
