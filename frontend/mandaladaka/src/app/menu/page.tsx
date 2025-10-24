@@ -27,16 +27,19 @@ export default function MenuPage() {
         <h2>Cardápio</h2>
 
         <div className={styles.productsGrid}>
-          {products.map((product) => (
-            <div key={product.id} className={styles.productCard}>
-              <img src={product.imageUrl} alt={product.name} />
-              <h3>{product.name}</h3>
-              <p>R$ {product.price.toFixed(2)}</p>
-              <p>Categoria: {product.category}</p>
-              <button>Adicionar</button>
-            </div>
-          ))}
-        </div>
+  {products.map((product) => (
+    // No futuro, colocaremos o onClick aqui
+    <div key={product.id} className={styles.productCard}> 
+      <img src={product.imageUrl} alt={product.name} />
+      
+      <div className={styles.productInfo}>
+        <h3>{product.name}</h3>
+        <p>Categoria: {product.category}</p>
+        <span className={styles.productPrice}>R$ {product.price.toFixed(2)}</span>
+      </div>
+    </div>
+  ))}
+</div>
       </section>
 
       <section className={styles.orderSection}>
