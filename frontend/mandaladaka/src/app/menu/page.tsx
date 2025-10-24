@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from 'react';
-import { mockProducts } from './mock-data';
 import { useSearchParams } from 'next/navigation';
+import { mockProducts } from './mock-data';
+import styles from './menu.module.css';
 
 type Product = {
   id: number;
@@ -15,40 +16,42 @@ type Product = {
 
 export default function MenuPage() {
   const [products, setProducts] = useState<Product[]>(mockProducts);
-  
   const searchParams = useSearchParams();
   const table = searchParams.get('table');
   const clients = searchParams.get('clients');
-  
+
   return (
-    <main style={{ display: 'flex' }}>
-      <div className="product-list" style={{ flex: 2, padding: '1rem' }}>
-        <h1>Cardápio</h1>
-        {products.map((product) => (
-          <div key={product.id} style={{ border: '1px solid #ccc', margin: '0.5rem', padding: '0.5rem' }}>
-            <img 
-              src={product.imageUrl} 
-              alt={product.name} 
-              style={{ width: '100px', height: '100px', objectFit: 'cover' }} 
-            />
-            <h3>{product.name}</h3>
-            <p>R$ {product.price.toFixed(2)}</p>
-            <p>Categoria: {product.category}</p>
-            <button>Adicionar</button>
-          </div>
-        ))}
-      </div>
+    <main className={styles.mainContainer}>
+      
+      <section className={styles.productsSection}>
+        <h2>Cardápio</h2>
 
-      <div className="order-summary" style={{ flex: 1, padding: '1rem', borderLeft: '1px solid #ddd' }}>
-        <h2>Seu Pedido</h2>
-        <div style={{ padding: '10px 0' }}>
-          <span>MESA: <strong>{table || 'N/A'}</strong></span>
-          <span style={{ marginLeft: '1rem' }}>CLIENTES: <strong>{clients || 'N/A'}</strong></span>
+        <div className={styles.productsGrid}>
+          {products.map((product) => (
+            <div key={product.id} className={styles.productCard}>
+              <img src={product.imageUrl} alt={product.name} />
+              <h3>{product.name}</h3>
+              <p>R$ {product.price.toFixed(2)}</p>
+              <p>Categoria: {product.category}</p>
+              <button>Adicionar</button>
+            </div>
+          ))}
         </div>
-        <hr />
-        <p>(Itens do pedido aqui...)</p>
-      </div>
+      </section>
 
+      <section className={styles.orderSection}>
+        <div className={styles.orderHeader}>
+          <h2>Seu Pedido</h2>
+          <div className={styles.orderInfo}>
+            <span>MESA: <strong>{table || 'N/A'}</strong></span>
+            <span>CLIENTES: <strong>{clients || 'N/A'}</strong></span>
+          </div>
+        </div>
+
+        <div className={styles.orderBodyEmpty}>
+          <p>(Pedido Vazio)</p>
+        </div>
+      </section>
     </main>
   );
 }
