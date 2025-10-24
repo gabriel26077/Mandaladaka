@@ -30,11 +30,11 @@ export default function Header() {
         <input type="text" placeholder="Procure por produto ou pedido" />
         <img src="/icons/search.png" alt="Pesquisar" />
       </div>
+
       <div className={styles.headerActions}>
         <span className={styles.dateTime}>
           {formattedDateTime || 'Carregando...'}
         </span>
-        <button className={styles.btnAddTable}>+ ADD MESA</button>
       </div>
     </header>
   );

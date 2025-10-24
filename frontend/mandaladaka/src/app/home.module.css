@@ -19,14 +19,17 @@
 }
 
 .logo {
-    text-align: center;
-    font-size: 2.5rem;
-    font-weight: 600;
-    margin-bottom: 3rem;
-    color: var(--color-text-primary);
+    width: 120px;
+    height: auto;
+    margin: 0 auto 3rem auto;
+    display: block;
 }
 
-.sidebarNav a {
+.sidebarNav ul {
+    list-style: none;
+}
+
+.sidebarLink {
     display: flex;
     align-items: center;
     padding: 1rem 2rem;
@@ -36,16 +39,12 @@
     transition: color 0.2s, background-color 0.2s;
 }
 
-.sidebarNav ul {
-    list-style: none;
-}
-
 .sidebarNav img {
     width: 20px;
     margin-right: 1rem;
 }
 
-.navItem.active a {
+.navItem.active .sidebarLink {
     color: var(--color-primary-dark);
     background-color: #F0F3F0;
     border-right: 4px solid var(--color-primary);
@@ -82,6 +81,7 @@
     height: 20px;
     opacity: 0.6;
 }
+
 .headerActions {
     display: flex;
     align-items: center;
@@ -105,7 +105,7 @@
 .mainContent {
     grid-area: main;
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr;
     gap: 2rem;
     padding: 2rem;
     overflow-y: auto;
@@ -146,7 +146,7 @@
     cursor: pointer;
     transition: border 0.2s;
     max-width: 140px;
-    margin: 0 auto; 
+    margin: 0 auto;
 }
 
 .tableCardContent {
@@ -260,7 +260,8 @@
     margin-bottom: 1rem;
 }
 
-.orderHeader h2, .orderInfo {
+.orderHeader h2,
+.orderInfo {
     font-weight: 500;
     font-size: 1rem;
 }
