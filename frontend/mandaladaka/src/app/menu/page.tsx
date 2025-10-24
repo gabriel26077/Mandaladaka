@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { mockProducts } from './mock-data';
+import { useSearchParams } from 'next/navigation';
 
 type Product = {
   id: number;
@@ -14,6 +15,11 @@ type Product = {
 
 export default function MenuPage() {
   const [products, setProducts] = useState<Product[]>(mockProducts);
+  
+  const searchParams = useSearchParams();
+  const table = searchParams.get('table');
+  const clients = searchParams.get('clients');
+  
   return (
     <main style={{ display: 'flex' }}>
       <div className="product-list" style={{ flex: 2, padding: '1rem' }}>
@@ -35,8 +41,14 @@ export default function MenuPage() {
 
       <div className="order-summary" style={{ flex: 1, padding: '1rem', borderLeft: '1px solid #ddd' }}>
         <h2>Seu Pedido</h2>
-        <p>(Em breve...)</p>
+        <div style={{ padding: '10px 0' }}>
+          <span>MESA: <strong>{table || 'N/A'}</strong></span>
+          <span style={{ marginLeft: '1rem' }}>CLIENTES: <strong>{clients || 'N/A'}</strong></span>
+        </div>
+        <hr />
+        <p>(Itens do pedido aqui...)</p>
       </div>
+
     </main>
   );
 }
