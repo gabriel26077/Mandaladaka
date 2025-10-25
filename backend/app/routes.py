@@ -11,7 +11,7 @@ def home():
 db_config = {
     'host': 'localhost',
     'user': 'root',
-    'password': '0402',
+    'password': 'root',
     'database': 'mdk_db'
 }
 
