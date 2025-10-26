@@ -13,13 +13,18 @@ COLLATE utf8mb4_general_ci;
 USE mdk_db;
 
 -- 3. CRIAÇÃO DAS TABELAS (DDL)
--- Exemplo da Tabela de Usuários (Mantenha se for usar)
-DROP TABLE IF EXISTS usuarios;
-CREATE TABLE usuarios (
+
+-- Tabela de Usuários (users) - MODIFICADA
+-- (Modificada para bater com o domain/models/user.py)
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,  -- Adicionado para login
+    name VARCHAR(100) NOT NULL,             -- 'nome' renomeado
     email VARCHAR(100) UNIQUE NOT NULL,
-    senha_hash CHAR(64) NOT NULL
+    hashed_password CHAR(64) NOT NULL,      -- 'senha_hash' renomeado
+    roles JSON NOT NULL                     -- Adicionado para ['admin', 'waiter']
+    -- O tipo JSON armazena a lista de papéis
 );
 
 -- Sua Tabela de Produtos (products)
@@ -34,17 +39,17 @@ CREATE TABLE IF NOT EXISTS products (
     visibility BOOLEAN DEFAULT TRUE
 );
 
--- Adicione outras tabelas aqui (Ex: orders, customers, etc.)
--- ...
 
 ---
 
 -- 4. INSERÇÃO DE DADOS INICIAIS (DML)
 
--- Dados de Exemplo para a tabela usuarios
-INSERT INTO usuarios (nome, email, senha_hash) VALUES 
-('Alice Dev', 'alice@projeto.com', 'hash_exemplo_1'),
-('Bob Teste', 'bob@projeto.com', 'hash_exemplo_2');
+-- Dados para a tabela 'users' (NOVO)
+INSERT INTO users (username, name, email, hashed_password, roles) VALUES 
+('admin', 'Admin do Sistema', 'admin@projeto.com', 'hash_admin_seguro', '["admin"]'),
+('garcom_ana', 'Ana Silva (Garçonete)', 'ana.silva@projeto.com', 'hash_garcom_seguro_1', '["waiter"]'),
+('garcom_bruno', 'Bruno Costa (Garçom)', 'bruno.costa@projeto.com', 'hash_garcom_seguro_2', '["waiter"]'),
+('super_bia', 'Bia Gerente (Admin e Garçonete)', 'bia.gerente@projeto.com', 'hash_super_seguro', '["admin", "waiter"]');
 
 
 -- Dados da Tabela de Produtos (products)
@@ -80,5 +85,3 @@ INSERT INTO products (name, price, availability, category, imageUrl, visibility)
 ('Açaí na Tigela', 14.90, TRUE, 'Sobremesa', '/categories/desserts.jpg', TRUE),
 ('Milkshake', 12.90, TRUE, 'Sobremesa', '/categories/desserts.jpg', TRUE),
 ('Pudim da Casa', 10.90, TRUE, 'Sobremesa', '/categories/desserts.jpg', TRUE);
-
--- Adicione outros INSERTs de dados iniciais aqui

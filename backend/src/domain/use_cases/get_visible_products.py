@@ -1,5 +1,5 @@
 from typing import List
-from ..models import Product
+from ..models.product import Product
 from ..ports import AbstractProductRepository
 
 class GetVisibleProductsUseCase:

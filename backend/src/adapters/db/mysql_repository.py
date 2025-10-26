@@ -6,7 +6,7 @@ from typing import List
 from ...domain.ports import AbstractProductRepository
 
 # Importa o modelo de domínio que ele deve retornar
-from ...domain.models import Product
+from ...domain.models.product import Product
 
 # Importa a configuração
 from .db_config import db_config
