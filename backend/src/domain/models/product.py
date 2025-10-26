@@ -13,5 +13,6 @@ class Product:
     availability: bool
     category: str
     imageUrl: str
+    visibility: bool
 
 
