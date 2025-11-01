@@ -185,6 +185,8 @@
   }
 ]
 
+```
+
 #### GET /tables
 
 * **Descrição:** Lista todas as mesas e status.
@@ -196,7 +198,7 @@
   {"id":1,"status":"OCCUPIED","number_of_people":4},
   {"id":2,"status":"FREE","number_of_people":0}
 ]
-```
+
 
 #### POST /tables/<table_id>/open
 
