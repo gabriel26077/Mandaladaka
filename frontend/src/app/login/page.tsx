@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './login.module.css';
+import Image from 'next/image';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -16,20 +17,10 @@ export default function LoginPage() {
     setError(null);
     setIsLoading(true);
 
-    if (!username || !password) {
-      setError("Usuário e senha são obrigatórios.");
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      // 1. Chamar a API de back-end (Flask) que está rodando na porta 5000
       const response = await fetch('http://localhost:5000/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        // O body envia o JSON no formato que o 'LoginSchema' espera
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           username: username,
           password: password,
@@ -37,18 +28,9 @@ export default function LoginPage() {
       });
 
       const data = await response.json();
+      if (!response.ok) throw new Error(data.description || 'Falha no login');
 
-      if (!response.ok) {
-        throw new Error(data.description || 'Falha no login');
-      }
-
-      // 2. Se o login for bem-sucedido (status 200)
-      const token = data.access_token; // Pega o token da resposta
-
-      // 3. Salva o token no localStorage do navegador
-      localStorage.setItem('access_token', token);
-
-      // 4. Redireciona o usuário para a página Home (/)
+      localStorage.setItem('access_token', data.access_token);
       router.push('/');
 
     } catch (err) {
@@ -65,8 +47,16 @@ export default function LoginPage() {
   return (
     <div className={styles.loginContainer}>
       <form className={styles.loginForm} onSubmit={handleLogin}>
-        <h1>Login</h1>
         
+        <Image 
+          src="/icons/mdk_com.png"
+          alt="MDK Logo"
+          width={150}
+          height={150}
+          className={styles.logo}
+        />
+        
+        <h1>Bem Vindo!</h1>
         <div className={styles.inputGroup}>
           <label htmlFor="username">Usuário</label>
           <input 
@@ -75,24 +65,29 @@ export default function LoginPage() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             disabled={isLoading}
+            placeholder="Digite seu nome de usuário"
           />
         </div>
 
         <div className={styles.inputGroup}>
-          <label htmlFor="password">Senha</label>
+          <div className={styles.labelRow}>
+            <label htmlFor="password">Senha</label>
+            <a href="#" className={styles.forgotPassword}>Esqueceu a senha?</a>
+          </div>
           <input 
             type="password" 
             id="password" 
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={isLoading}
+            placeholder="Digite sua senha"
           />
         </div>
 
-        {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+        {error && <p className={styles.errorText}>{error}</p>}
 
         <button type="submit" className={styles.btnSubmit} disabled={isLoading}>
-          {isLoading ? 'Entrando...' : 'Entrar'}
+          {isLoading ? 'Entrando...' : 'LOGIN'}
         </button>
       </form>
     </div>
