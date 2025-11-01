@@ -116,6 +116,7 @@
 
 ```json
 {
+  "name": "string",
   "username": "string",
   "password": "string",
   "roles": ["admin","waiter"]

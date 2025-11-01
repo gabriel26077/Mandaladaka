@@ -119,7 +119,7 @@ def create_waiter_blueprint(
                     "id": p.id,
                     "name": p.name,
                     "price": float(p.price),
-                    "description": p.description,
+                    #"description": p.description, não existe descrição
                     "category": p.category,
                     "imageUrl": p.imageUrl,
                     "availability": p.availability
