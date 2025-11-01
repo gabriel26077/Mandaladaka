@@ -298,3 +298,28 @@
     background-color: #ccc;
     cursor: not-allowed;
 }
+
+.btnRemoveIcon {
+    background-color: #fce8e6;
+    border: 1px solid #f8d7d4;
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btnRemoveIcon img {
+    width: 14px;
+    height: 14px;
+    opacity: 0.8;
+}
+.btnRemoveIcon:hover {
+    background-color: #f8d7d4;
+}
+.itemActions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}

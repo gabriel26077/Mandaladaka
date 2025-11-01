@@ -142,10 +142,10 @@ export default function MenuPage() {
                   <div className={styles.itemActions}>
                     <span className={styles.itemPrice}>R$ {(item.price * item.quantity).toFixed(2)}</span>
                     <button 
-                      className={styles.btnRemove}
+                      className={styles.btnRemoveIcon}
                       onClick={() => handleRemoveItem(item.id)}
                     >
-                      &times;
+                     <img src="/icons/trash.png" alt="Remover" />
                     </button>
                   </div>
                 </li>
