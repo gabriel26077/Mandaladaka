@@ -2,20 +2,25 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import styles from './home.module.css';
+import styles from './home.module.css'; 
+import { mockTables } from './tables.mock';
 
-const tablesData = [
-  { name: 'T1' }, { name: 'T2' }, { name: 'T3' }, { name: 'T4' }, { name: 'T5' },
-  { name: 'T6' }, { name: 'T7' }, { name: 'T8' }, { name: 'T9' }, { name: 'T10' }
-];
+type Table = {
+  id: number;
+  status: 'available' | 'occupied';
+  number_of_people: number;
+};
 
 export default function HomePage() {
-  const [selectedTable, setSelectedTable] = useState('T1');
-  const [personCount, setPersonCount] = useState(2);
   const router = useRouter();
+  const [tables, setTables] = useState<Table[]>(mockTables);
+  
 
-  const handleSelectTable = (tableName: string) => {
-    setSelectedTable(tableName);
+  const [selectedTable, setSelectedTable] = useState<number | null>(null);
+  const [personCount, setPersonCount] = useState(1);
+
+  const handleSelectTable = (tableId: number) => {
+    setSelectedTable(tableId);
     setPersonCount(1); 
   };
 
@@ -34,17 +39,17 @@ export default function HomePage() {
       <section className={styles.tablesSection}>
         <h2>LISTA DE MESAS</h2>
         <div className={styles.tablesGrid}>
-          {tablesData.map((table) => (
+          {tables.map((table) => (
             <div
-              key={table.name}
-              className={`${styles.tableCard} ${selectedTable === table.name ? styles.selected : ''}`}
-              onClick={() => handleSelectTable(table.name)}
+              key={table.id}
+              className={`${styles.tableCard} ${selectedTable === table.id ? styles.selected : ''}`}
+              onClick={() => handleSelectTable(table.id)}
             >
               <div className={styles.tableCardContent}>
                 <img className={styles.tableIcon} src="/icons/hover.png" alt="Mesa" />
-                <span className={styles.tableName}>{table.name}</span>
+                <span className={styles.tableName}>T{table.id}</span>
               </div>
-              {selectedTable === table.name && (
+              {selectedTable === table.id && (
                 <div className={styles.personCounter}>
                   <button onClick={(e) => { e.stopPropagation(); handlePersonCountChange(-1); }} className={styles.counterBtn}>-</button>
                   <span className={styles.personCount}>{personCount}</span>
@@ -56,10 +61,12 @@ export default function HomePage() {
         </div>
         <div className={styles.tablesFooter}>
           <div className={styles.selectionSummary}>
-            <span>MESA: <strong>{selectedTable}</strong></span>
+            <span>MESA: <strong>T{selectedTable}</strong></span>
             <span>CLIENTES: <strong>{personCount}</strong></span>
           </div>
-          <button onClick = {handleContinue} className={styles.btnConfirm}>CONTINUAR</button>
+          <button onClick={handleContinue} className={styles.btnConfirm} disabled={!selectedTable}>
+            CONTINUAR
+          </button>
         </div>
       </section>
     </main>
