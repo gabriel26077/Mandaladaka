@@ -64,8 +64,8 @@ init-db:
 # Inicia o backend (Flask) em PRIMEIRO PLANO.
 run-back:
 	@echo ">>> INICIANDO BACKEND (Terminal 1) <<<"
-	@cd $(BACKEND_DIR)/ ; $(PYTHON_VENV_ACTIVATE) ; python run.py
-
+	@cd $(BACKEND_DIR) ;  $(PYTHON_VENV_ACTIVATE) ; cd src ; python -m adapters.web.main
+	
 # Inicia o frontend (Next.js) em PRIMEIRO PLANO.
 run-front:
 	@echo ">>> INICIANDO FRONTEND (Terminal 2) <<<"

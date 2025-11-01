@@ -1,6 +1,5 @@
-# backend/src/domain/models.py
-
 from dataclasses import dataclass
+
 
 @dataclass
 class Product:
@@ -14,3 +13,6 @@ class Product:
     availability: bool
     category: str
     imageUrl: str
+    visibility: bool
+
+

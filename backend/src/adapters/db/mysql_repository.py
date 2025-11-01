@@ -3,10 +3,10 @@ from mysql.connector import Error
 from typing import List
 
 # Importa a abstração (Porta) que ele deve implementar
-from ...domain.ports import AbstractProductRepository
+from domain.ports.product_repository import AbstractProductRepository
 
 # Importa o modelo de domínio que ele deve retornar
-from ...domain.models import Product
+from domain.models.product import Product
 
 # Importa a configuração
 from .db_config import db_config
