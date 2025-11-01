@@ -52,7 +52,8 @@ def create_app():
         get_table_details_uc=container.get_table_details_uc,
         close_table_uc=container.close_table_uc,
         create_order_uc=container.create_order_uc,
-        add_item_to_order_uc=container.add_item_to_order_uc
+        add_item_to_order_uc=container.add_item_to_order_uc,
+        get_visible_products_uc=container.get_visible_products_uc
     )
     
     # Cria o blueprint da Cozinha

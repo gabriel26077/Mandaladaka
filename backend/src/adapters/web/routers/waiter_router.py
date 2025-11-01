@@ -22,6 +22,8 @@ from domain.use_cases.waiter import (
     AddItemToOrderUseCase
 )
 
+from domain.use_cases.get_visible_products import GetVisibleProductsUseCase
+
 # Importa os Schemas (DTOs da Web) que este router precisará
 from ..schemas import (
     TableResponseSchema,
@@ -29,7 +31,7 @@ from ..schemas import (
     OpenTableSchema,
     OrderResponseSchema,
     CreateOrderSchema,
-    AddItemToOrderSchema
+    AddItemToOrderSchema,
 )
 
 # Importa o decorador de autenticação base
@@ -37,6 +39,9 @@ from adapters.web.routers.auth_router import auth_required
 
 # Cria o Blueprint. Usaremos /tables e /orders como prefixos de rota.
 waiter_bp = Blueprint("waiter", __name__, url_prefix="/")
+
+
+
 
 
 # --- DECORADOR DE AUTORIZAÇÃO ESPECÍFICO ---
@@ -61,7 +66,8 @@ def create_waiter_blueprint(
     get_table_details_uc: GetTableDetailsUseCase,
     close_table_uc: CloseTableUseCase,
     create_order_uc: CreateOrderUseCase,
-    add_item_to_order_uc: AddItemToOrderUseCase
+    add_item_to_order_uc: AddItemToOrderUseCase,
+    get_visible_products_uc: GetVisibleProductsUseCase
 ):
     """
     Fábrica para o Blueprint do Garçom (Waiter).
@@ -93,6 +99,41 @@ def create_waiter_blueprint(
             abort(403, description=str(e)) # 403 Forbidden
         except Exception as e:
             return jsonify({"error": str(e)}), 500
+
+
+
+    # No waiter_router.py, corrija a função list_available_products():
+    @waiter_bp.route("/products", methods=["GET"])
+    @waiter_required
+    def list_available_products():
+        """
+        [GET /products] Lista todos os produtos disponíveis no cardápio.
+        """
+        try:
+            # Reutiliza o caso de uso existente
+            products = get_visible_products_uc.execute()
+            
+            # Formata a resposta
+            response_data = [
+                {
+                    "id": p.id,
+                    "name": p.name,
+                    "price": float(p.price),
+                    "description": p.description,
+                    "category": p.category,
+                    "imageUrl": p.imageUrl,
+                    "availability": p.availability
+                }
+                for p in products
+            ]
+            return jsonify(response_data), 200
+        
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+
+        # E REMOVA o "return waiter_bp" que está dentro da função acima
+        # O return waiter_bp deve estar no FINAL da create_waiter_blueprint()
+
 
 
     @waiter_bp.route("/tables/<int:table_id>/open", methods=["POST"])

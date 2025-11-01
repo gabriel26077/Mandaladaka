@@ -156,6 +156,34 @@
 
 ### Waiter (Garçom)
 
+#### GET /products
+
+* **Descrição:** Lista todos os produtos disponíveis no cardápio para o garçom.
+* **Requer:** role 'waiter' ou 'admin'
+* **Resposta 200:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Pizza Margherita",
+    "price": 25.0,
+    "description": "Molho de tomate, mussarela e manjericão",
+    "category": "MAIN_COURSE",
+    "imageUrl": "/images/pizza.jpg",
+    "availability": true
+  },
+  {
+    "id": 2,
+    "name": "Hambúrguer Artesanal", 
+    "price": 18.0,
+    "description": "Pão brioche, carne 180g, queijo cheddar",
+    "category": "MAIN_COURSE",
+    "imageUrl": "/images/burger.jpg",
+    "availability": true
+  }
+]
+
 #### GET /tables
 
 * **Descrição:** Lista todas as mesas e status.
