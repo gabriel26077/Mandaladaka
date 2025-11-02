@@ -1,40 +1,103 @@
 "use client";
 
-import { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { mockProducts, Product } from './mock-data';
+import { useState, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import styles from './menu.module.css';
+
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+  imageUrl: string;
+  availability: boolean;
+};
 
 type OrderItem = Product & {
   quantity: number;
 };
 
-const allCategories = [...new Set(mockProducts.map((product) => product.category))];
-
 const TAX_RATE = 0.10; // 10%
 
 export default function MenuPage() {
-  const [products, setProducts] = useState<Product[]>(mockProducts);
+  const router = useRouter();
   const searchParams = useSearchParams();
   const table = searchParams.get('table');
   const clients = searchParams.get('clients');
-  const [activeCategory, setActiveCategory] = useState(allCategories[0]);
+  
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
+  
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [modalQuantity, setModalQuantity] = useState(1);
 
-  const filteredProducts = products.filter(
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const token = localStorage.getItem('access_token');
+      if (!token) {
+        router.push('/login');
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:5000/products', { // Rota GET /products
+          method: 'GET',
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
+
+        if (response.status === 401) {
+          router.push('/login');
+          return;
+        }
+        if (!response.ok) {
+          throw new Error('Falha ao buscar o cardápio');
+        }
+
+        const data: Product[] = await response.json();
+        setAllProducts(data);
+        
+        if (data.length > 0) {
+          const categories = [...new Set(data.map((product) => product.category))];
+          setActiveCategory(categories[0]);
+        }
+        
+      } catch (err) {
+        if (err instanceof Error) setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [router]);
+
+  const allCategories = [...new Set(allProducts.map((product) => product.category))];
+  const filteredProducts = allProducts.filter(
     (product) => product.category === activeCategory
   );
 
   const openQuantityModal = (product: Product) => {
-    setSelectedProduct(product);
-    setModalQuantity(1);
-    setIsModalOpen(true);
+    setSelectedProduct(product); setModalQuantity(1); setIsModalOpen(true);
   };
-
+  const handleCloseModal = () => {
+    setIsModalOpen(false); setSelectedProduct(null);
+  };
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const quantity = parseInt(e.target.value, 10);
+    if (quantity > 0) setModalQuantity(quantity);
+  };
+  const handleRemoveItem = (productId: number) => {
+    setOrderItems(orderItems.filter((item) => item.id !== productId));
+  };
+  const handleCancelOrder = () => {
+    setOrderItems([]);
+  };
+  
   const handleConfirmAdd = () => {
     if (!selectedProduct) return;
     const existingItem = orderItems.find((item) => item.id === selectedProduct.id);
@@ -56,38 +119,21 @@ export default function MenuPage() {
     setSelectedProduct(null);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedProduct(null);
-  };
-  
-  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const quantity = parseInt(e.target.value, 10);
-    if (quantity > 0) {
-      setModalQuantity(quantity);
-    }
-  };
-
-  const handleRemoveItem = (productId: number) => {
-    setOrderItems(orderItems.filter((item) => item.id !== productId));
-  };
-
-  const handleCancelOrder = () => {
-    setOrderItems([]);
-  };
-  
-  const subtotal = orderItems.reduce(
-    (sum, item) => sum + item.price * item.quantity, 0
-  );
+  const subtotal = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const tax = subtotal * TAX_RATE;
   const total = subtotal + tax;
 
+  if (isLoading) {
+    return <main className={styles.mainContainer}><p style={{textAlign: 'center'}}>Carregando cardápio...</p></main>;
+  }
+  
   return (
-    <main className={styles.mainContainer}>
+    <main className={styles.mainContainer} style={{ position: 'relative' }}>
       
-      {/* Coluna da Esquerda: Produtos */}
       <section className={styles.productsSection}>
         <h2>Cardápio</h2>
+        {error && <p style={{ color: 'red' }}>Erro: {error}</p>}
+        
         <div className={styles.filterBar}>
           {allCategories.map((category) => (
             <button key={category} className={`${styles.filterButton} ${activeCategory === category ? styles.active : ''}`} onClick={() => setActiveCategory(category)}>
@@ -109,7 +155,7 @@ export default function MenuPage() {
         </div>
       </section>
 
-      {/* Coluna da Direita: Pedido */}
+       {/* Coluna da Direita (Pedido)*/}
       <section className={styles.orderSection}>
         <div className={styles.orderHeader}>
           <h2>Seu Pedido</h2>
@@ -145,7 +191,7 @@ export default function MenuPage() {
                       className={styles.btnRemoveIcon}
                       onClick={() => handleRemoveItem(item.id)}
                     >
-                     <img src="/icons/trash.png" alt="Remover" />
+                      <img src="/icons/trash.png" alt="Remover" />
                     </button>
                   </div>
                 </li>
@@ -156,23 +202,12 @@ export default function MenuPage() {
 
         <div className={styles.orderFooter}>
           <div className={styles.orderTotal}>
-            <div className={styles.totalRow}>
-              <span>SUBTOTAL</span>
-              <span>R$ {subtotal.toFixed(2)}</span>
-            </div>
-            <div className={styles.totalRow}>
-              <span>TAXA DE SERVIÇO (10%)</span>
-              <span>R$ {tax.toFixed(2)}</span>
-            </div>
-            <div className={`${styles.totalRow} ${styles.grandTotal}`}>
-              <span>TOTAL</span>
-              <span>R$ {total.toFixed(2)}</span>
-            </div>
+            <div className={styles.totalRow}><span>SUBTOTAL</span><span>R$ {subtotal.toFixed(2)}</span></div>
+            <div className={styles.totalRow}><span>TAXA DE SERVIÇO (10%)</span><span>R$ {tax.toFixed(2)}</span></div>
+            <div className={`${styles.totalRow} ${styles.grandTotal}`}><span>TOTAL</span><span>R$ {total.toFixed(2)}</span></div>
           </div>
           <div className={styles.footerActions}>
-            <button className={styles.btnCancelOrder} onClick={handleCancelOrder}>
-              Cancelar Pedido
-            </button>
+            <button className={styles.btnCancelOrder} onClick={handleCancelOrder}>Cancelar Pedido</button>
             <button className={styles.btnSendOrder} disabled={orderItems.length === 0}>
               Enviar Pedido
             </button>
@@ -180,7 +215,6 @@ export default function MenuPage() {
         </div>
       </section>
 
-      {/* Modal */}
       {isModalOpen && selectedProduct && (
         <div className={styles.modalBackdrop} onClick={handleCloseModal}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
