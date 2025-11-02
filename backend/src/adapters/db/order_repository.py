@@ -28,6 +28,7 @@ class MySQLOrderRepository(OrderRepositoryPort):
         return Order(
             id=row['id'],
             table_number=row['table_number'],
+            waiter_id=row['waiter_id'], # PRENDA SUA ATENÇAO AQUI: EU ADICIONEI ESSA LINHA DE WAITER E ESTOU RECEBENDO O ERRO DE PYTHON TUPLE CANNOT BE CONVERTED
             status=OrderStatus(row['status']), # Converte string "pending" para Enum
             created_at=row['created_at'],
             items=[] # A lista de itens será preenchida depois
@@ -103,6 +104,10 @@ class MySQLOrderRepository(OrderRepositoryPort):
             print(f"Erro ao buscar pedido por ID {order_id}: {e}")
             return None
 
+
+
+
+
     def find_by_status(self, status: OrderStatus) -> List[Order]:
         orders_map: Dict[int, Order] = {} # { order_id -> Order_Object }
         
@@ -115,8 +120,8 @@ class MySQLOrderRepository(OrderRepositoryPort):
                 p.imageUrl as product_imageUrl, p.visibility as product_visibility
             FROM order_items oi
             JOIN products p ON oi.product_id = p.id
-            WHERE oi.order_id IN %s
-        """ # O %s será um tupla de IDs (id1, id2, ...)
+            WHERE oi.order_id IN (%s)
+        """
 
         try:
             with self.pool.get_connection() as connection:
@@ -135,21 +140,38 @@ class MySQLOrderRepository(OrderRepositoryPort):
                         orders_map[order.id] = order
                     
                     # 3. Busca TODOS os itens para TODOS os pedidos encontrados de uma só vez
-                    order_ids = tuple(orders_map.keys())
-                    cursor.execute(query_items, (order_ids,))
-                    item_rows = cursor.fetchall()
-                    
-                    # 4. "Costura" os itens nos seus respectivos pedidos
-                    for item_row in item_rows:
-                        item = self._row_to_item_with_product(item_row)
-                        order_id = item_row['order_id']
-                        orders_map[order_id].items.append(item)
+                    if orders_map:
+                        order_ids = tuple(orders_map.keys())
                         
-                    return list(orders_map.values())
+                        # Formata a query para o IN clause
+                        placeholders = ','.join(['%s'] * len(order_ids))
+                        formatted_query = query_items % placeholders
+                        
+                        cursor.execute(formatted_query, order_ids)
+                        item_rows = cursor.fetchall()
+                        
+                        # 4. "Costura" os itens nos seus respectivos pedidos
+                        for item_row in item_rows:
+                            item = self._row_to_item_with_product(item_row)
+                            order_id = item_row['order_id']
+                            
+                            if order_id in orders_map:
+                                orders_map[order_id].items.append(item)
+                            
+                        return list(orders_map.values())
+                    else:
+                        return []
 
         except Error as e:
             print(f"Erro ao buscar pedidos por status {status.value}: {e}")
             return []
+
+
+
+
+
+
+
 
     # --- Implementação dos Métodos da Porta (Escrita) ---
 
