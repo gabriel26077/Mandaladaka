@@ -1,0 +1,173 @@
+.mainContainer {
+    padding: 2rem;
+    height: calc(100vh - 80px); 
+    overflow-y: auto;
+}
+
+.mainContainer h1 {
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.ordersGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.orderCard {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.orderCardHeader {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.orderCardHeader h3 {
+    font-size: 1.2rem;
+}
+
+.statusPending {
+    background-color: #fef3c7;
+    color: #92400e;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.orderCardBody {
+    padding: 1.5rem;
+}
+
+.orderCardBody ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.orderCardBody li {
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-text-secondary);
+}
+
+.orderCardBody li span:first-child {
+    font-weight: 500;
+    color: var(--color-text-primary);
+}
+
+/* --- STATUS --- */
+.statusTag {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+  color: white;
+}
+
+.statusPending {
+  background-color: #f39c12;
+}
+
+.statusInProgress {
+  background-color: #3498db;
+}
+
+.statusReady {
+  background-color: #2ecc71;
+}
+
+.statusDelivered {
+  background-color: #9b59b6;
+}
+
+/* --- BOTÕES --- */
+.orderCardActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.orderCardActions button {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: 600;
+  color: white;
+  transition: 0.2s ease;
+}
+
+.btnPrimary {
+  background-color: #3498db;
+}
+
+.btnSuccess {
+  background-color: #2ecc71;
+}
+
+.btnDelivered {
+  background-color: #9b59b6;
+}
+
+.btnCancel {
+  background-color: #e74c3c;
+}
+
+.orderCardActions button:hover {
+  opacity: 0.8;
+}
+
+/* ---- FILTRO ---- */
+.headerRow {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 600px) {
+  .headerRow {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filterBtn {
+  background-color: #eee;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-weight: 500;
+}
+
+.filterBtn:hover {
+  background-color: #ddd;
+}
+
+.filterBtnActive {
+  background-color: #2ecc71;
+  color: white;
+  font-weight: 600;
+}

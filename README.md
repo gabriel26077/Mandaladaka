@@ -1,10 +1,12 @@
 # Eng-de-Software-UFRN
 
-Repositório de exemplo para as atividades da disciplina de Engenharia de Software da UFRN.
-
 ## Índice
 
 - [Sobre o Projeto](#sobre-o-projeto)
+  - [Título](#título)
+  - [Descrição](#descrição)
+  - [Telas da Aplicação](#telas-da-aplicação)
+  - [Tecnologias e Arquitetura](#tecnologias-e-arquitetura)
 - [Modelagem e Diagramas UML](#modelagem-e-diagramas-uml)
 - [Componentes](#componentes)
 - [Como clonar ou baixar](#como-clonar-ou-baixar)
@@ -20,6 +22,49 @@ Mandaladaka
 ### Descrição
 Um AppWeb de gerenciamento de restaurante para auxiliar na organização de mesas, pedidos e ítens disponíveis no estoque/cardápio.
 
+### Telas da Aplicação
+
+| Login | Lista de Mesas | Cardápio (Menu) |
+| :---: | :---: | :---: |
+| ![Tela de login](docs/screenshots/tela-login.png) | ![Tela de lista de mesas](docs/screenshots/tela-mesas.png) | ![Tela do cardápio](docs/screenshots/tela-menu.png) |
+
+| Pedidos Pendentes | Comandas |
+| :---: | :---: |
+| ![Tela do painel de pedidos](docs/screenshots/tela-pedidos.png) | ![Tela de comandas](docs/screenshots/tela-comandas.png) |
+
+### Tecnologias e Arquitetura
+
+O sistema é dividido em duas partes principais (backend e frontend) que se comunicam via API REST.
+
+| Área | Tecnologia | Propósito |
+| :--- | :--- | :--- |
+| **Backend** | `Python` + `Flask` | API REST |
+| | `Arquitetura Hexagonal` | Isolamento da lógica de negócio |
+| | `MySQL` | Banco de dados relacional |
+| **Frontend**| `Next.js` + `React` | Interface do usuário (Web App) |
+| | `TypeScript` | Tipagem e segurança no código |
+| | `App Router` | Roteamento baseado em pastas |
+| | `CSS Modules` | Estilização escopada |
+
+#### Backend (API - Flask)
+O backend utiliza a **Arquitetura Hexagonal (Portas e Adaptadores)**. O objetivo é isolar o "núcleo" da aplicação (lógica de negócio) do "mundo exterior" (Flask, MySQL).
+
+* **O Núcleo (`src/domain`):** Contém a lógica de negócio pura (Modelos e Casos de Uso).
+* **As Portas (`src/domain/ports.py`):** São interfaces (contratos) que o Núcleo define.
+* **Os Adaptadores (`src/adapters`):** São as implementações concretas (Flask, MySQL) que se conectam às Portas.
+
+*(Para mais detalhes, veja o `backend/README.md`)*
+
+#### Frontend (Web App - Next.js)
+O frontend utiliza **Next.js 13+** com o **App Router**.
+
+* **`src/app/` (Roteamento):** O núcleo da aplicação. Cada pasta dentro de `app` se torna uma rota na URL.
+* **`page.tsx` (UI):** Define a interface do usuário (UI) para uma rota específica.
+* **`layout.tsx` (Layout):** Define uma UI compartilhada (como a `Sidebar` e o `Header`).
+* **`src/components/` (Componentes):** Contém componentes React reutilizáveis.
+
+*(Para mais detalhes, veja o `frontend/README.md`)*
+
 ## Modelagem e Diagramas UML
 
 A arquitetura e o comportamento do sistema foram modelados utilizando diagramas UML para garantir clareza e consistência no desenvolvimento.
@@ -29,7 +74,7 @@ A arquitetura e o comportamento do sistema foram modelados utilizando diagramas 
 
 Os diagramas visuais estão localizados na pasta `Diagrams` e a documentação detalhada sobre eles pode ser encontrada no arquivo `Diagramas.md`.
 
-### Componentes
+## Componentes
 - Gabriel Sebastião do Nascimento Neto
 - Sara Gabrielly do Nascimento Silva
 - Icaro Bruno Silbe Cortês
@@ -41,7 +86,7 @@ Você pode obter este repositório de três formas:
 ### Clonar via HTTPS
 
 ```bash
-git clone https://github.com/gabriel26077/Mandaladaka
+git clone [https://github.com/gabriel26077/Mandaladaka](https://github.com/gabriel26077/Mandaladaka)
 ```
 
 Isso criará uma cópia local do repositório em sua máquina.
@@ -123,6 +168,8 @@ Mandaladaka/
 ├── backend/                 # Contém o código-fonte do backend (Flask).
 ├── frontend/                # Contém o código-fonte do frontend (Next.js).
 ├── database/                # Contém os scripts SQL para criação e população do banco.
+├── docs/                    # Documentação e imagens
+│   └── screenshots/         # Screenshots da aplicação
 ├── Diagrams/                # Contém os arquivos de imagem dos diagramas UML.
 ├── Diagramas.md             # Documentação detalhada dos diagramas UML.
 ├── backlog_user_stories.md  # Documento com o backlog e histórias de usuário.

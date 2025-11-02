@@ -1,67 +1,119 @@
-# Frontend - Sistema de Gestão MDK
+# Mandaladaka - Frontend
 
-Este diretório contém todo o código-fonte do frontend para o projeto MDK, um Sistema de gestão de pedidos para restaurantes.
+Este diretório contém o código-fonte do cliente (Web App) do sistema Mandaladaka, construído com **Next.js 13+** e **TypeScript**, utilizando o **App Router**.
 
-O objetivo é criar uma interface moderna, rápida e intuitiva para facilitar a operação diária, desde a seleção de mesas até o fechamento da conta.
+## 🚀 Sobre o Projeto
 
-## ✨ Funcionalidades Principais
+O frontend é responsável por toda a interface com o usuário, consumindo a API do backend (Flask) para gerenciar mesas, pedidos e cardápio.
 
-* **Gestão de Mesas:** Visualização gráfica do layout das mesas, com status de livre/ocupado.
-* **Seleção de Clientes:** Atribuição de uma quantidade de clientes a uma mesa.
-* **Criação de Pedidos:** Interface para adicionar produtos a um pedido associado a uma mesa.
-* **Navegação Intuitiva:** Um menu lateral para acesso rápido às principais seções do sistema (Cardápio, Pagamentos, etc.).
+## 📁 Estrutura de Pastas (App Router)
 
-## 🚀 Tecnologias Utilizadas
-
-Este projeto foi construído utilizando o ecossistema React com as seguintes tecnologias:
-
-* **[Next.js](https://nextjs.org/):** Framework React para produção, que oferece renderização no servidor, geração de sites estáticos e uma ótima experiência de desenvolvimento.
-* **[React](https://react.dev/):** Biblioteca para construir interfaces de usuário.
-* **[TypeScript](https://www.typescriptlang.org/):** Superset do JavaScript que adiciona tipagem estática ao código, aumentando a robustez e facilitando a manutenção.
-
-## 📂 Estrutura de Pastas
-
-O projeto utiliza a estrutura do **App Router** do Next.js, que é organizada por rotas.
+O projeto segue a estrutura de pastas padrão do Next.js 13+, que é baseada em rotas e componentes.
 
 ```
 frontend/
+├── design_ui/             # Arquivos de design e protótipos (ex: Figma)
+├── public/                # Assets estáticos (ícones, imagens)
+│   ├── icons/
+│   └── images/categories/
 ├── src/
-│   └── app/
-│       ├── globals.css     # Estilos globais da aplicação.
-│       ├── layout.tsx      # Layout principal que envolve todas as páginas.
-│       └── page.tsx        # A página principal (Home, a tela de mesas).
+│   ├── app/               # <-- O Coração do App Router
+│   │   ├── login/
+│   │   ├── menu/
+│   │   ├── order/
+│   │   ├── payment/
+│   │   ├── settings/
+│   │   │
+│   │   ├── layout.tsx     # Layout principal (com Sidebar/Header)
+│   │   ├── page.tsx       # Página principal (Home / Lista de Mesas)
+│   │   └── globals.css
+│   │
+│   └── components/        # <-- Componentes Reutilizáveis
+│       ├── header.tsx
+│       └── sidebar.tsx
 │
-├── public/                 # Arquivos estáticos (imagens, ícones, fontes).
-│
-├── next.config.js          # Arquivo de configuração do Next.js.
-└── package.json            # Dependências e scripts do projeto.
+├── .gitignore
+├── package.json
+└── README.md              # Este arquivo
 ```
 
-* **`src/app/`**: É o coração do projeto. Cada pasta dentro de `app` representa uma rota (uma URL) na aplicação. O arquivo `page.tsx` é a interface daquela rota.
-* **`public/`**: Contém todos os arquivos que serão servidos publicamente, como os ícones das mesas e da navegação.
+### Conceitos-Chave da Estrutura
 
-## ⚙️ Como Rodar o Projeto
+* `src/app/`: O núcleo da aplicação. Cada pasta dentro de `app` se torna um segmento de rota na URL (ex: `src/app/menu` vira `http://.../menu`).
+* `page.tsx`: Define a UI pública para uma rota. (Ex: `src/app/order/page.tsx` é a página da rota `/order`).
+* `layout.tsx`: Define uma UI compartilhada (como a `Sidebar` e o `Header`) que envolve as `page.tsx` filhas.
+* `*.module.css`: Usamos CSS Modules (ex: `order.module.css`) para estilização local e escopada por componente, evitando conflitos de classes.
+* `src/components/`: Contém componentes React reutilizáveis (ex: `Sidebar`) que não são rotas.
 
-Siga os passos abaixo para executar o projeto em seu ambiente de desenvolvimento.
+## 📊 Funcionalidades e Status Atual
+> **🎨 Status da UI (Design)**
+> A interface do usuário (UI) atual é funcional, mas ainda passará por um refinamento visual e de usabilidade. A página de **Pedidos & Comandas (`/order`)**, em particular, é a prioridade para futuras melhorias de design.
 
-1.  **Pré-requisitos:**
-    * [Node.js](https://nodejs.org/en) (versão 18 ou superior).
-    * `npm` ou `yarn`.
+### ✅ Concluído e 100% Integrado
 
-2.  **Navegue até a pasta do frontend:**
+* **Login:** Página de autenticação que se comunica com a API.
+* **Home (Lista de Mesas):**
+    * Busca e exibe todas as mesas.
+    * Mostra o status de cada mesa (livre, ocupada, número de pessoas).
+* **Cardápio (Menu):**
+    * Busca e exibe todos os produtos e suas categorias.
+    * Permite a seleção de itens para um novo pedido.
+
+### ⚠️ Em Desenvolvimento (Parcialmente Implementado)
+
+* **Painel — Pedidos & Comandas (`/order`):**
+    * **Aba "Pedidos Pendentes":** Funcional. Faz a requisição ao backend e exibe corretamente os pedidos pendentes na cozinha.
+    * **Aba "Comandas":** Implementação inicial.
+        * **❌ O que falta:** As comandas listadas não são clicáveis para consultar os pedidos de cada uma.
+        * **❌ O que falta:** O botão "Fechar Comanda" não funciona (será alterado para "Ir para Pagamento").
+        * **❌ O que falta:** O botão "Novo Pedido" redireciona para `/menu`, mas não passa o ID da mesa/comanda, impedindo que o pedido seja associado corretamente.
+
+### 📋 Próximos Passos (To-Do)
+
+1.  **Pagamento:** Implementar a página `/payment`, que conterá a lógica final para "Fechar Mesa".
+2.  **Fluxo de Comandas:**
+    * Tornar as comandas na aba "Comandas" clicáveis para consultar os pedidos de cada uma.
+    * Corrigir o fluxo "Adicionar Pedido" (via comanda) para que o ID da mesa seja enviado corretamente para a página `/menu`.
+3.  **Botões:** Alterar o botão "Fechar Comanda" para "Ir para Pagamento" e direcioná-lo para a nova página.
+
+## 🛠️ Como Executar (Desenvolvimento)
+
+Existem duas formas de rodar o frontend: usando o `make` (recomendado) ou manualmente com `npm`.
+
+**Pré-requisito:** Você precisa ter o [Node.js](https://nodejs.org/) (v18 ou superior) instalado.
+
+### 1. Usando `make` (Recomendado)
+
+Este comando foi configurado no `Makefile` da raiz do projeto (`Mandaladaka/`) e cuida de tudo.
+
+```bash
+# No diretório raiz (Mandaladaka/), execute:
+make run-front
+```
+
+### 2. Manualmente (NPM)
+
+1.  **Navegue até a pasta:**
     ```bash
     cd frontend
     ```
 
-3.  **Instale as dependências do projeto:**
+2.  **Instale as dependências:**
     ```bash
     npm install
     ```
 
-4.  **Inicie o servidor de desenvolvimento:**
+3.  **Variáveis de Ambiente:**
+    Crie um arquivo `.env.local` na raiz da pasta `frontend/`. Ele é necessário para apontar para a API do backend.
+
+    ```bash
+    # frontend/.env.local
+    NEXT_PUBLIC_API_URL=http://localhost:5000
+    ```
+
+4.  **Rode o servidor de desenvolvimento:**
     ```bash
     npm run dev
     ```
 
-5.  **Acesse a aplicação:**
-    * Abra seu navegador e acesse [http://localhost:3000](http://localhost:3000).
+A aplicação estará disponível em `http://localhost:3000`.

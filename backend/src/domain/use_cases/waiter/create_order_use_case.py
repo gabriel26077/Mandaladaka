@@ -32,7 +32,7 @@ class CreateOrderUseCase:
         self.product_repository = product_repository
         self.order_repository = order_repository # (NOVO) Salva o repositório
 
-    def execute(self, table_id: int, items_data: List[Dict[str, Any]]) -> Order:
+    def execute(self, waiter_id: int,table_id: int, items_data: List[Dict[str, Any]]) -> Order:
         """
         Executa a lógica de criação do pedido.
         
@@ -57,7 +57,7 @@ class CreateOrderUseCase:
             raise TableNotFoundException(f"Mesa {table_id} não encontrada.")
 
         # 2. Criar a nova entidade Order em memória
-        new_order = Order(id=0, table_number=table_id)
+        new_order = Order(id=0, table_number=table_id, waiter_id=waiter_id)  # id=0 como placeholder
         
         if not items_data:
             raise BusinessRuleException("Não é possível criar um pedido vazio.")
