@@ -1,0 +1,4 @@
+from adapters.db.product_repository import MySQLProductRepository
+from adapters.db.user_repository import MySQLUserRepository
+from adapters.db.order_repository import MySQLOrderRepository
+from adapters.db.table_repository import MySQLTableRepository

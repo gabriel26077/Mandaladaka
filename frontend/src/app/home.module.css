@@ -296,3 +296,27 @@
     opacity: 0.7;
     margin-bottom: 1rem;
 }
+
+.tableCard.occupied {
+    background-color: #fce8e6; /* Fundo vermelho claro */
+    cursor: not-allowed;
+}
+
+.tableCard.occupied .tableIcon {
+    opacity: 0.2;
+}
+
+.tableCard.occupied .tableName {
+    color: #a53725; /* Vermelho escuro */
+}
+
+.occupiedText {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #a53725;
+}

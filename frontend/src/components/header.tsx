@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import styles from '../app/home.module.css';
+import styles from '../app/home.module.css'; 
 
 export default function Header() {
   const [currentDateTime, setCurrentDateTime] = useState<Date | null>(null);
@@ -26,10 +26,7 @@ export default function Header() {
 
   return (
     <header className={styles.appHeader}>
-      <div className={styles.searchBar}>
-        <input type="text" placeholder="Procure por produto ou pedido" />
-        <img src="/icons/search.png" alt="Pesquisar" />
-      </div>
+      <div></div>
 
       <div className={styles.headerActions}>
         <span className={styles.dateTime}>
