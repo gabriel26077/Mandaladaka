@@ -1,3 +1,4 @@
+#adapters/web/deps.py
 # --- 1. Importar todas as implementações CONCRETAS (Adaptadores) ---
 
 # Adaptadores de Banco de Dados
@@ -30,6 +31,8 @@ from domain.use_cases.admin import (
     CreateUserUseCase,
     UpdateUserUseCase
 )
+
+from domain.use_cases.get_visible_products import GetVisibleProductsUseCase
 
 # Casos de Uso da Cozinha
 from domain.use_cases.kitchen import (
@@ -97,6 +100,11 @@ class AppContainer:
             product_repository=self.product_repo,
             user_repository=self.user_repo
         )
+
+        self.get_visible_products_uc = GetVisibleProductsUseCase(
+            repository=self.product_repo
+        )
+
         self.create_user_uc = CreateUserUseCase(
             user_repository=self.user_repo,
             password_hasher=self.password_hasher

@@ -1,5 +1,5 @@
 -- database/init_db.sql
--- Script de Inicialização para MariaDB
+-- Script de Inicialização para MariaDB (VERSÃO CORRIGIDA)
 -- ----------------------------------------------------
 
 -- 1. DROP E CRIAÇÃO DO BANCO DE DADOS
@@ -86,6 +86,12 @@ CREATE TABLE IF NOT EXISTS order_items (
 -- ('garcom_bruno', 'Bruno Costa (Garçom)','hash_garcom_seguro_2', '["waiter"]'),
 -- ('super_bia', 'Bia Gerente (Admin e Garçonete)', 'hash_super_seguro', '["admin", "waiter"]');
 
+-- Dados de Exemplo para as Mesas
+INSERT INTO tables (id, status, number_of_people) VALUES
+(1, 'available', 0), (2, 'available', 0), (3, 'available', 0),
+(4, 'available', 0), (5, 'available', 0), (6, 'available', 0),
+(7, 'available', 0), (8, 'available', 0), (9, 'available', 0),
+(10, 'available', 0);
 
 
 -- Dados de Exemplo para as Mesas

@@ -1,3 +1,4 @@
+#domain/ports/product_repository.py
 from abc import ABC, abstractmethod
 from typing import List, Optional
 from ..models import Product # (Corrigido o import para ..models)
