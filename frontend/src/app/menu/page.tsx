@@ -12,7 +12,6 @@ type Product = {
   imageUrl: string;
   availability: boolean;
 };
-
 type OrderItem = Product & {
   quantity: number;
 };
@@ -29,7 +28,8 @@ export default function MenuPage() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); 
+  const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,13 +43,11 @@ export default function MenuPage() {
         router.push('/login');
         return;
       }
-
       try {
         const response = await fetch('http://localhost:5000/products', { // Rota GET /products
           method: 'GET',
           headers: { 'Authorization': `Bearer ${token}` },
         });
-
         if (response.status === 401) {
           router.push('/login');
           return;
@@ -57,22 +55,18 @@ export default function MenuPage() {
         if (!response.ok) {
           throw new Error('Falha ao buscar o cardápio');
         }
-
         const data: Product[] = await response.json();
         setAllProducts(data);
-        
         if (data.length > 0) {
           const categories = [...new Set(data.map((product) => product.category))];
           setActiveCategory(categories[0]);
         }
-        
       } catch (err) {
         if (err instanceof Error) setError(err.message);
       } finally {
         setIsLoading(false);
       }
     };
-
     fetchProducts();
   }, [router]);
 
@@ -97,7 +91,6 @@ export default function MenuPage() {
   const handleCancelOrder = () => {
     setOrderItems([]);
   };
-  
   const handleConfirmAdd = () => {
     if (!selectedProduct) return;
     const existingItem = orderItems.find((item) => item.id === selectedProduct.id);
@@ -123,6 +116,54 @@ export default function MenuPage() {
   const tax = subtotal * TAX_RATE;
   const total = subtotal + tax;
 
+  const handleSendOrder = async () => {
+    setError(null);
+    setIsSending(true);
+
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      router.push('/login');
+      return;
+    }
+
+    const itemsData = orderItems.map(item => ({
+      product_id: item.id,
+      quantity: item.quantity
+    }));
+
+    const body = {
+      items: itemsData
+    };
+
+    try {
+      const response = await fetch(`http://localhost:5000/tables/${table}/orders`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body)
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.description || 'Falha ao enviar o pedido');
+      }
+
+      alert('Pedido enviado para a cozinha com sucesso!');
+      setOrderItems([]);
+
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Um erro inesperado ocorreu.');
+      }
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   if (isLoading) {
     return <main className={styles.mainContainer}><p style={{textAlign: 'center'}}>Carregando cardápio...</p></main>;
   }
@@ -132,7 +173,7 @@ export default function MenuPage() {
       
       <section className={styles.productsSection}>
         <h2>Cardápio</h2>
-        {error && <p style={{ color: 'red' }}>Erro: {error}</p>}
+        {error && <p style={{ color: 'red', textAlign: 'center', marginBottom: '1rem' }}>{error}</p>}
         
         <div className={styles.filterBar}>
           {allCategories.map((category) => (
@@ -154,20 +195,12 @@ export default function MenuPage() {
           ))}
         </div>
       </section>
-
-       {/* Coluna da Direita (Pedido)*/}
       <section className={styles.orderSection}>
         <div className={styles.orderHeader}>
           <h2>Seu Pedido</h2>
           <div className={styles.orderInfo}>
-            <span>
-              <img src="/icons/table.png" alt="Ícone Mesa" />
-              MESA: <strong>{table || 'N/A'}</strong>
-            </span>
-            <span>
-              <img src="/icons/guess.png" alt="Ícone Clientes" />
-              CLIENTES: <strong>{clients || 'N/A'}</strong>
-            </span>
+            <span><img src="/icons/table.png" alt="Ícone Mesa" /> MESA: <strong>{table || 'N/A'}</strong></span>
+            <span><img src="/icons/guess.png" alt="Ícone Clientes" /> CLIENTES: <strong>{clients || 'N/A'}</strong></span>
           </div>
         </div>
 
@@ -187,10 +220,7 @@ export default function MenuPage() {
                   </div>
                   <div className={styles.itemActions}>
                     <span className={styles.itemPrice}>R$ {(item.price * item.quantity).toFixed(2)}</span>
-                    <button 
-                      className={styles.btnRemoveIcon}
-                      onClick={() => handleRemoveItem(item.id)}
-                    >
+                    <button className={styles.btnRemoveIcon} onClick={() => handleRemoveItem(item.id)}>
                       <img src="/icons/trash.png" alt="Remover" />
                     </button>
                   </div>
@@ -208,8 +238,13 @@ export default function MenuPage() {
           </div>
           <div className={styles.footerActions}>
             <button className={styles.btnCancelOrder} onClick={handleCancelOrder}>Cancelar Pedido</button>
-            <button className={styles.btnSendOrder} disabled={orderItems.length === 0}>
-              Enviar Pedido
+            
+            <button 
+              className={styles.btnSendOrder} 
+              disabled={orderItems.length === 0 || isSending}
+              onClick={handleSendOrder}
+            >
+              {isSending ? 'Enviando...' : 'Enviar Pedido'}
             </button>
           </div>
         </div>
