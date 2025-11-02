@@ -129,3 +129,45 @@
 .orderCardActions button:hover {
   opacity: 0.8;
 }
+
+/* ---- FILTRO ---- */
+.headerRow {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 600px) {
+  .headerRow {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filterBtn {
+  background-color: #eee;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-weight: 500;
+}
+
+.filterBtn:hover {
+  background-color: #ddd;
+}
+
+.filterBtnActive {
+  background-color: #2ecc71;
+  color: white;
+  font-weight: 600;
+}

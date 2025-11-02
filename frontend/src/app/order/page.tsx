@@ -23,7 +23,7 @@ type Order = {
   total_price: number;
 };
 
-//dados mock
+/* Mock inicial */
 const MOCK_ORDERS: Order[] = [
   {
     id: 101,
@@ -57,6 +57,16 @@ const MOCK_ORDERS: Order[] = [
     ],
     total_price: 48.8,
   },
+  {
+    id: 104,
+    table_number: 3,
+    status: "delivered",
+    created_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
+    items: [
+      { product: { id: 9, name: "Batata Especial", price: 19.9 }, quantity: 1, total_price: 19.9 },
+    ],
+    total_price: 19.9,
+  },
 ];
 
 export default function OrderPage() {
@@ -64,6 +74,7 @@ export default function OrderPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [filter, setFilter] = useState<"all" | Order["status"]>("all");
 
   const shouldUseMock = (): boolean => {
     if (typeof window === "undefined") return false;
@@ -78,7 +89,6 @@ export default function OrderPage() {
     const fetchOrders = async () => {
       setIsLoading(true);
       setError(null);
-
       const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
       const useMock = shouldUseMock();
 
@@ -97,12 +107,10 @@ export default function OrderPage() {
         const res = await fetch("http://localhost:5000/kitchen/orders/pending", {
           headers: { Authorization: `Bearer ${token}` },
         });
-
         if (res.status === 401) {
           router.push("/login");
           return;
         }
-
         if (!res.ok) throw new Error("Falha ao buscar pedidos");
 
         const data: Order[] = await res.json();
@@ -121,9 +129,7 @@ export default function OrderPage() {
 
   const handleStatusChange = (id: number, newStatus: Order["status"]) => {
     setOrders((prev) =>
-      prev.map((order) =>
-        order.id === id ? { ...order, status: newStatus } : order
-      )
+      prev.map((order) => (order.id === id ? { ...order, status: newStatus } : order))
     );
   };
 
@@ -131,10 +137,13 @@ export default function OrderPage() {
     setOrders((prev) => prev.filter((order) => order.id !== id));
   };
 
+  const filteredOrders =
+    filter === "all" ? orders : orders.filter((o) => o.status === filter);
+
   if (isLoading) {
     return (
       <main className={styles.mainContainer}>
-        <h1>Pedidos Pendentes</h1>
+        <h1>Pedidos</h1>
         <p>Carregando...</p>
       </main>
     );
@@ -142,14 +151,37 @@ export default function OrderPage() {
 
   return (
     <main className={styles.mainContainer}>
-      <h1>Pedidos</h1>
+      <div className={styles.headerRow}>
+        <h1>Pedidos</h1>
+
+        <div className={styles.filterBar}>
+          {[
+            { label: "Todos", value: "all" },
+            { label: "Pendentes", value: "pending" },
+            { label: "Em preparo", value: "in_progress" },
+            { label: "Prontos", value: "ready" },
+            { label: "Entregues", value: "delivered" },
+          ].map((btn) => (
+            <button
+              key={btn.value}
+              className={`${styles.filterBtn} ${
+                filter === btn.value ? styles.filterBtnActive : ""
+              }`}
+              onClick={() => setFilter(btn.value as any)}
+            >
+              {btn.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {error && <p style={{ color: "orange" }}>{error}</p>}
 
       <div className={styles.ordersGrid}>
-        {orders.length === 0 ? (
-          <p>Nenhum pedido no momento.</p>
+        {filteredOrders.length === 0 ? (
+          <p>Nenhum pedido encontrado.</p>
         ) : (
-          orders.map((order) => (
+          filteredOrders.map((order) => (
             <div key={order.id} className={styles.orderCard}>
               <div className={styles.orderCardHeader}>
                 <h3>
