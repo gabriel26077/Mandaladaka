@@ -66,3 +66,66 @@
     font-weight: 500;
     color: var(--color-text-primary);
 }
+
+/* --- STATUS --- */
+.statusTag {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+  color: white;
+}
+
+.statusPending {
+  background-color: #f39c12;
+}
+
+.statusInProgress {
+  background-color: #3498db;
+}
+
+.statusReady {
+  background-color: #2ecc71;
+}
+
+.statusDelivered {
+  background-color: #9b59b6;
+}
+
+/* --- BOTÕES --- */
+.orderCardActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.orderCardActions button {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: 600;
+  color: white;
+  transition: 0.2s ease;
+}
+
+.btnPrimary {
+  background-color: #3498db;
+}
+
+.btnSuccess {
+  background-color: #2ecc71;
+}
+
+.btnDelivered {
+  background-color: #9b59b6;
+}
+
+.btnCancel {
+  background-color: #e74c3c;
+}
+
+.orderCardActions button:hover {
+  opacity: 0.8;
+}
