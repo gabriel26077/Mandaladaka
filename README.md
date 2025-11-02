@@ -1,7 +1,5 @@
 # Eng-de-Software-UFRN
 
-Repositório de exemplo para as atividades da disciplina de Engenharia de Software da UFRN.
-
 ## Índice
 
 - [Sobre o Projeto](#sobre-o-projeto)
