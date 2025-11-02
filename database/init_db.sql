@@ -93,14 +93,6 @@ INSERT INTO tables (id, status, number_of_people) VALUES
 (7, 'available', 0), (8, 'available', 0), (9, 'available', 0),
 (10, 'available', 0);
 
-
--- Dados de Exemplo para as Mesas
-INSERT INTO tables (id, status, number_of_people) VALUES
-(1, 'available', 0), (2, 'available', 0), (3, 'available', 0),
-(4, 'available', 0), (5, 'available', 0), (6, 'available', 0),
-(7, 'available', 0), (8, 'available', 0), (9, 'available', 0),
-(10, 'available', 0);
-
 -- Dados da Tabela de Produtos (products)
 INSERT INTO products (name, price, availability, category, imageUrl, visibility) VALUES
 ('Clássico da Casa', 24.90, 1, 'Hambúrgueres', '/images/categories/burguer.jpg', 1),
