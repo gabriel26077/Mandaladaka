@@ -234,7 +234,7 @@ def create_waiter_blueprint(
         """
         [POST /tables/<id>/orders] Cria um novo pedido para uma mesa ocupada.
         """
-        waiter_id = 1 # PLACEHOLDER
+        waiter_id = g.user_id
         
         json_data = request.get_json()
         if not json_data:
@@ -249,6 +249,7 @@ def create_waiter_blueprint(
         try:
             # 2. Chama o caso de uso
             new_order = create_order_uc.execute(
+                waiter_id=waiter_id,
                 table_id=table_id,
                 items_data=validated_data.model_dump().get("items", [])
             )

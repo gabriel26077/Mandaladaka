@@ -170,13 +170,14 @@ class MySQLOrderRepository(OrderRepositoryPort):
                         # --- Passo 1: Salvar o Order principal ---
                         if order.id == 0: # INSERT
                             order_query = """
-                                INSERT INTO orders (table_number, status, created_at) 
-                                VALUES (%s, %s, %s)
+                                INSERT INTO orders (table_number, status, created_at,waiter_id) 
+                                VALUES (%s, %s, %s, %s)
                             """
                             order_params = (
                                 order.table_number, 
                                 order.status.value, # Converte Enum para string
-                                order.created_at
+                                order.created_at,
+                                order.waiter_id
                             )
                             cursor.execute(order_query, order_params)
                             order.id = cursor.lastrowid # Atualiza o ID no objeto

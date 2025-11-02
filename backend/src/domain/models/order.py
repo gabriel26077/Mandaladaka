@@ -27,7 +27,7 @@ class Order:
     
     id: int
     table_number: int  # Número da mesa que fez o pedido
-    
+    waiter_id: int   # ID do garçom que atendeu a mesa
     # Um pedido pode começar vazio, por isso o default_factory
     items: List[ItemOrder] = field(default_factory=list)
     
