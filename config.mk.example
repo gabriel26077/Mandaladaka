@@ -1,0 +1,13 @@
+# === CONFIGURACOES DE AMBIENTE VIRTUAL ===
+
+# Linux/macOS:
+# PYTHON_VENV_ACTIVATE = source venv/bin/activate
+
+# Windows: venv/Scripts/activate (ou venv\Scripts\activate, dependendo do shell)
+PYTHON_VENV_ACTIVATE = source venv/Scripts/activate
+
+# === CREDENCIAIS DO BANCO DE DADOS (MariaDB/MySQL) ===
+# estamos usando o nome mdk_db
+DB_NAME = SEU_NOME_DO_BANCO
+DB_USER = SEU_USUARIO_DO_BANCO
+DB_PASSWORD = SUA_SENHA_DO_BANCO
