@@ -1,4 +1,4 @@
-```mermeid
+```mermaid
 classDiagram
     %% --- ENUMS ---
     class OrderStatus {

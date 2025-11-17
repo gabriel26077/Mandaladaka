@@ -4,9 +4,14 @@
 
 ## (Atenção professor) 📊 Relatório de Testes
 Consulte o relatório completo aqui:  
+
 ➡️ [RELATORIO_TESTES_UNITARIOS.md](RELATORIO_TESTES_UNITARIOS.md)
 
 
+➡️ [Diagrama de classes de domínio (core)](Diagrams/core_domain.png)
+
+
+➡️ [Relatório de pincípios de projeto](RELATORIO_DE_PRINCIPIOS_DE_PROJETO.md)
 
 
 ## Índice
@@ -40,46 +45,6 @@ Um AppWeb de gerenciamento de restaurante para auxiliar na organização de mesa
 | Pedidos Pendentes | Comandas |
 | :---: | :---: |
 | ![Tela do painel de pedidos](docs/screenshots/tela-pedidos.png) | ![Tela de comandas](docs/screenshots/tela-comandas.png) |
-
-
-
-## 🧩 Padrões de Projeto Utilizados
-
-A arquitetura do Mandaladaka segue princípios modernos de engenharia de software, utilizando padrões de projeto que garantem organização, isolamento, testabilidade e evolução do sistema.
-
-### 🔶 Arquitetura Hexagonal (Ports & Adapters)
-O sistema separa claramente o núcleo de domínio das interfaces externas.
-
-- **Portas (Ports):** interfaces que o domínio expõe.
-- **Adaptadores (Adapters):** implementações concretas que se conectam ao banco de dados e ao Flask.
-
-### 🔷 Domain-Driven Design (DDD – Camada de Domínio)
-A camada `src/domain/` segue conceitos táticos de DDD:
-- Entidades
-- Agregados
-- Exceções de domínio
-- Casos de uso (Application Services)
-
-### 🔧 Repository Pattern
-Repositórios são definidos como portas:
-```python
-class OrderRepositoryPort(ABC):
-```
-E implementados por adaptadores.
-
-### 🎛 Dependency Injection
-Use cases recebem dependências via construtor.
-
-### 📤 Command Pattern
-Use cases seguem o formato:
-```python
-def execute(...)
-```
-
-### 📌 Documentação Complementar
-Para detalhes sobre testes da camada de domínio, consulte:
-
-👉 **TESTS_DOMAIN.md**
 
 
 ### Tecnologias e Arquitetura
