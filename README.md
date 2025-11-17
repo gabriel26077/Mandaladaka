@@ -1,5 +1,21 @@
 # Eng-de-Software-UFRN
 
+
+
+## 📊 Relatórios
+
+➡️ [Relatório Testes unitários](RELATORIO_TESTES_UNITARIOS.md)
+
+
+➡️ [Diagrama de classes de domínio (core)](Diagrams/core_domain.png)
+
+
+➡️ [Diagrama de classes de domínio (core) [Código]](Diagrams/DIAGRAMA_CORE_DOMAIN.md)
+
+
+➡️ [Relatório de princípios de projeto](RELATORIO_DE_PRINCIPIOS_DE_PROJETO.md)
+
+
 ## Índice
 
 - [Sobre o Projeto](#sobre-o-projeto)
@@ -31,6 +47,7 @@ Um AppWeb de gerenciamento de restaurante para auxiliar na organização de mesa
 | Pedidos Pendentes | Comandas |
 | :---: | :---: |
 | ![Tela do painel de pedidos](docs/screenshots/tela-pedidos.png) | ![Tela de comandas](docs/screenshots/tela-comandas.png) |
+
 
 ### Tecnologias e Arquitetura
 

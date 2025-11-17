@@ -31,3 +31,43 @@ Nosso projeto já respeita os princípios de Responsabilidade única e  segrega�
 O projeto não possui muitos casos em que se haja extensão de comportamento para haver discussões como os princípios de Preferir composição a herança, Aberto/fechado e Substituição de Liskov. O caso das classes que estendem `User` em fato segue o princípio de Liskov (pois nenhuma das classes sequer possui comportamento para ser substituído).
 
 Quanto ao princípio de Demeter, precisamos tomar cuidado durante o desenvolvimento para não violá-lo.
+
+# Revisão
+
+## 🧩 Padrões de Projeto Utilizados
+
+A arquitetura do Mandaladaka segue princípios modernos de engenharia de software, utilizando padrões de projeto que garantem organização, isolamento, testabilidade e evolução do sistema.
+
+### 🔶 Arquitetura Hexagonal (Ports & Adapters)
+O sistema separa claramente o núcleo de domínio das interfaces externas.
+
+- **Portas (Ports):** interfaces que o domínio expõe.
+- **Adaptadores (Adapters):** implementações concretas que se conectam ao banco de dados e ao Flask.
+
+### 🔷 Domain-Driven Design (DDD – Camada de Domínio)
+A camada `src/domain/` segue conceitos táticos de DDD:
+- Entidades
+- Agregados
+- Exceções de domínio
+- Casos de uso (Application Services)
+
+### 🔧 Repository Pattern
+Repositórios são definidos como portas:
+```python
+class OrderRepositoryPort(ABC):
+```
+E implementados por adaptadores.
+
+### 🎛 Dependency Injection
+Use cases recebem dependências via construtor.
+
+### 📤 Command Pattern
+Use cases seguem o formato:
+```python
+def execute(...)
+```
+
+### 📌 Documentação Complementar
+Para detalhes sobre testes da camada de domínio, consulte:
+
+👉 **TESTS_DOMAIN.md**
