@@ -2,16 +2,18 @@
 
 
 
-## (Atenção professor) 📊 Relatório de Testes
-Consulte o relatório completo aqui:  
+## 📊 Relatórios
 
-➡️ [RELATORIO_TESTES_UNITARIOS.md](RELATORIO_TESTES_UNITARIOS.md)
+➡️ [Relatório Testes unitários](RELATORIO_TESTES_UNITARIOS.md)
 
 
 ➡️ [Diagrama de classes de domínio (core)](Diagrams/core_domain.png)
 
 
-➡️ [Relatório de pincípios de projeto](RELATORIO_DE_PRINCIPIOS_DE_PROJETO.md)
+➡️ [Diagrama de classes de domínio (core) [Código]](Diagrams/DIAGRAMA_CORE_DOMAIN.md)
+
+
+➡️ [Relatório de princípios de projeto](RELATORIO_DE_PRINCIPIOS_DE_PROJETO.md)
 
 
 ## Índice
