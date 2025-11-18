@@ -19,7 +19,7 @@ export default function Sidebar() {
           <li className={`${styles.navItem} ${pathname === '/' ? styles.active : ''}`}>
             <Link href="/" className={styles.sidebarLink}>
               <img src="/icons/home.png" alt="Ícone Home" />
-              <span>HOME</span>
+              <span>MESAS</span>
             </Link>
           </li>
           <li className={`${styles.navItem} ${pathname === '/menu' ? styles.active : ''}`}>
@@ -38,12 +38,6 @@ export default function Sidebar() {
             <Link href="/order" className={styles.sidebarLink}>
               <img src="/icons/order.png" alt="Ícone Pedidos" />
               <span>PEDIDOS</span>
-            </Link>
-          </li>
-          <li className={`${styles.navItem} ${pathname === '/settings' ? styles.active : ''}`}>
-            <Link href="/settings" className={styles.sidebarLink}>
-              <img src="/icons/settings.png" alt="Ícone Configurações" />
-              <span>CONFIGURAÇÕES</span>
             </Link>
           </li>
         </ul>
