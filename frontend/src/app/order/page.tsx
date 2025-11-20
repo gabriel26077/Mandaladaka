@@ -126,25 +126,13 @@ export default function OrdersPage() {
     }
   };
 
-  const handleCloseTab = async (tableId: number) => {
+  const handleGoToPayment = (tableId: number) => {
     if (!token) {
       router.push("/login");
       return;
     }
 
-    try {
-      const res = await fetch(`http://localhost:5000/tables/${tableId}/close`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (!res.ok) throw new Error(`Erro ao fechar comanda: ${res.status}.`);
-      alert(`Mesa ${tableId} fechada (liberada).`);
-      fetchData();
-    } catch (err) {
-      console.error(err);
-      alert("Falha ao fechar a mesa. Verifique o servidor.");
-    }
+    router.push(`/payment?table=${tableId}`);
   };
 
   const handleOpenTabDetails = async (tab: TabSummary) => {
@@ -282,11 +270,11 @@ export default function OrdersPage() {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleCloseTab(tab.id);
+                        handleGoToPayment(tab.id);
                       }}
                       className={styles.btnCancel}
                     >
-                      Fechar Mesa/Comanda
+                      Ir para Pagamento
                     </button>
 
                     <button
@@ -378,12 +366,12 @@ export default function OrdersPage() {
                   </button>
                   <button
                     onClick={() => {
-                      handleCloseTab(selectedTab.id);
+                      handleGoToPayment(selectedTab.id);
                       setSelectedTab(null);
                     }}
                     className={styles.btnCancel}
                   >
-                    Fechar Comanda
+                    Ir para pagamento
                   </button>
                 </>
               ) : (
