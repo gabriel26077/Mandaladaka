@@ -59,7 +59,6 @@ export default function OrdersPage() {
   const fetchData = async () => {
     setIsLoading(true);
     
-    // Se não tiver token ou Backend fora, usa Mock direto para teste visual
     if (!token) { 
         console.log("Sem token ou teste visual, carregando mocks...");
         setOrders(mockOrders);
@@ -91,7 +90,6 @@ export default function OrdersPage() {
       }
     } catch (err) {
       console.error("Erro na API, carregando MOCKS para visualização do design.");
-      // FALLBACK: Carrega os dados de mentira para o design aparecer
       setOrders(mockOrders);
       setTabs(mockTabs);
     } finally {
@@ -102,6 +100,24 @@ export default function OrdersPage() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  // --- FUNÇÃO NOVA PARA INICIAR PREPARO ---
+  const handleStartPreparation = async (orderId: number) => {
+    // 1. Atualização Otimista: Remove da tela imediatamente para parecer rápido
+    setOrders((prevOrders) => prevOrders.filter((order) => order.id !== orderId));
+
+    // 2. Tenta avisar o backend (se tiver token e API rodando)
+    if (token) {
+        try {
+            await fetch(`http://localhost:5000/kitchen/orders/${orderId}/start`, {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}` }
+            });
+        } catch (error) {
+            console.error("Erro de conexão ao iniciar preparo (mas já atualizei a tela visualmente).");
+        }
+    }
+  };
 
   const handleGoToPayment = (tableId: number) => {
     router.push(`/payment?table=${tableId}`);
@@ -171,7 +187,13 @@ export default function OrdersPage() {
                     </ul>
                   </div>
                   <div className={styles.cardFooter}>
-                    <button className={styles.btnAction}>Iniciar Preparo</button>
+                    {/* ADICIONEI O ONCLICK AQUI */}
+                    <button 
+                        className={styles.btnAction}
+                        onClick={() => handleStartPreparation(order.id)}
+                    >
+                        Iniciar Preparo
+                    </button>
                   </div>
                 </div>
               ))

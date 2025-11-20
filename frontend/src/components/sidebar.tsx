@@ -28,16 +28,16 @@ export default function Sidebar() {
               <span>CARDÁPIO</span>
             </Link>
           </li>
-          <li className={`${styles.navItem} ${pathname === '/payment' ? styles.active : ''}`}>
-            <Link href="/payment" className={styles.sidebarLink}>
-              <img src="/icons/payment.png" alt="Ícone Pagamento" />
-              <span>PAGAMENTO</span>
-            </Link>
-          </li>
           <li className={`${styles.navItem} ${pathname === '/order' ? styles.active : ''}`}>
             <Link href="/order" className={styles.sidebarLink}>
               <img src="/icons/order.png" alt="Ícone Pedidos" />
               <span>PEDIDOS</span>
+            </Link>
+          </li>
+          <li className={`${styles.navItem} ${pathname === '/payment' ? styles.active : ''}`}>
+            <Link href="/payment" className={styles.sidebarLink}>
+              <img src="/icons/payment.png" alt="Ícone Pagamento" />
+              <span>PAGAMENTO</span>
             </Link>
           </li>
         </ul>
