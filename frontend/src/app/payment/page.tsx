@@ -117,10 +117,6 @@ function PaymentContent() {
         <main className={styles.container}>
             <div className={styles.header}>
                 <h1>PEDIDO / MESA #: {tableId}</h1>
-                <div className={styles.metaInfo}>
-                    <span>📅 {new Date().toLocaleDateString()}</span>
-                    {tableData && <span>👥 {tableData.number_of_people} Pessoas</span>}
-                </div>
             </div>
 
             <div className={styles.contentGrid}>
