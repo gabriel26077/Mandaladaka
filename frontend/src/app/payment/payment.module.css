@@ -1,0 +1,213 @@
+.container {
+    padding: 2rem;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    background-color: var(--color-background);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.metaInfo {
+    display: flex;
+    gap: 1.5rem;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.contentGrid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 2rem;
+    height: calc(100% - 80px);
+}
+
+.itemsList {
+    background-color: var(--color-surface);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.tableHeader {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.itemRow {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f0f0f0;
+    align-items: center;
+    color: var(--color-text-primary);
+}
+
+.itemName strong {
+    display: block;
+    font-size: 1rem;
+}
+
+.itemCategory {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+}
+
+.paymentPanel {
+    background-color: var(--color-surface);
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    height: fit-content;
+}
+
+.totalDisplay {
+    margin-bottom: 2rem;
+}
+
+.totalDisplay h2 {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.bigPrice {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--color-accent);
+}
+.paymentMethods {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 2rem;
+}
+
+.methodBtn {
+    flex: 1;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    background: #f9f9f9;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+}
+
+.methodBtn:hover {
+    background: #eee;
+}
+
+.methodBtn.active {
+    border-color: var(--color-primary);
+    background-color: #eafcfc;
+    color: var(--color-primary);
+}
+
+.inputGroup {
+    margin-bottom: 2rem;
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inputGroup label {
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+.moneyInput {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: right;
+    width: 120px;
+    outline: none;
+    color: var(--color-text-primary);
+}
+
+.summary {
+    margin-bottom: 2rem;
+    border-top: 1px dashed var(--color-border);
+    padding-top: 1rem;
+}
+
+.summaryRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+}
+
+.summaryRow.total {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-top: 1rem;
+}
+
+.payButton {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 1.2rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.payButton:hover {
+    opacity: 0.9;
+}
+
+.payButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.cancelButton {
+    background-color: transparent;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+    margin-top: 1rem;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
