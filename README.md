@@ -44,9 +44,9 @@ Um AppWeb de gerenciamento de restaurante para auxiliar na organização de mesa
 | :---: | :---: | :---: |
 | ![Tela de login](docs/screenshots/tela-login.png) | ![Tela de lista de mesas](docs/screenshots/tela-mesas.png) | ![Tela do cardápio](docs/screenshots/tela-menu.png) |
 
-| Pedidos Pendentes | Comandas |
-| :---: | :---: |
-| ![Tela do painel de pedidos](docs/screenshots/tela-pedidos.png) | ![Tela de comandas](docs/screenshots/tela-comandas.png) |
+| Pedidos Pendentes | Comandas | Pagamentos
+| :---: | :---: | :---:
+| ![Tela do painel de pedidos](docs/screenshots/tela-pedidos.png) | ![Tela de comandas](docs/screenshots/tela-comandas.png) | ![Tela de pagamento](docs/screenshots/tela-pagamento.png)
 
 
 ### Tecnologias e Arquitetura
