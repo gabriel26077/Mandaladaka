@@ -22,7 +22,6 @@ frontend/
 │   │   ├── menu/
 │   │   ├── order/
 │   │   ├── payment/
-│   │   ├── settings/
 │   │   │
 │   │   ├── layout.tsx     # Layout principal (com Sidebar/Header)
 │   │   ├── page.tsx       # Página principal (Home / Lista de Mesas)
@@ -34,7 +33,7 @@ frontend/
 │
 ├── .gitignore
 ├── package.json
-└── README.md              # Este arquivo
+└── frontend.md              # Este arquivo
 ```
 
 ### Conceitos-Chave da Estrutura
@@ -45,36 +44,28 @@ frontend/
 * `*.module.css`: Usamos CSS Modules (ex: `order.module.css`) para estilização local e escopada por componente, evitando conflitos de classes.
 * `src/components/`: Contém componentes React reutilizáveis (ex: `Sidebar`) que não são rotas.
 
-## 📊 Funcionalidades e Status Atual
-> **🎨 Status da UI (Design)**
-> A interface do usuário (UI) atual é funcional, mas ainda passará por um refinamento visual e de usabilidade. A página de **Pedidos & Comandas (`/order`)**, em particular, é a prioridade para futuras melhorias de design.
+## ✨ Funcionalidades Principais
 
-### ✅ Concluído e 100% Integrado
+### 1. 🗺️ Mapa de Mesas (Home)
+- Visualização em tempo real do status das mesas.
+- **Livre (Verde):** Permite abrir a mesa definindo o número de clientes.
+- **Ocupada (Vermelha):** Permite acessar o menu ou fechar a conta.
 
-* **Login:** Página de autenticação que se comunica com a API.
-* **Home (Lista de Mesas):**
-    * Busca e exibe todas as mesas.
-    * Mostra o status de cada mesa (livre, ocupada, número de pessoas).
-* **Cardápio (Menu):**
-    * Busca e exibe todos os produtos e suas categorias.
-    * Permite a seleção de itens para um novo pedido.
+### 2. 📝 Gestão de Pedidos & Cozinha (KDS)
+- **Painel da Cozinha:** Lista pedidos pendentes vindos do banco de dados.
+- **Fluxo de Preparo:** Botão "Iniciar Preparo" que comunica ao backend a mudança de status do pedido.
+- **Design Otimizado:** Cards visuais com ícones para rápida leitura.
 
-### ⚠️ Em Desenvolvimento (Parcialmente Implementado)
+### 3. 💸 Pagamento & Fechamento
+- Resumo detalhado de consumo.
+- Cálculo automático de subtotal e taxa de serviço (10%).
+- Simulação de pagamento (Dinheiro, Cartão, Pix).
 
-* **Painel — Pedidos & Comandas (`/order`):**
-    * **Aba "Pedidos Pendentes":** Funcional. Faz a requisição ao backend e exibe corretamente os pedidos pendentes na cozinha.
-    * **Aba "Comandas":** Implementação inicial.
-        * **❌ O que falta:** As comandas listadas não são clicáveis para consultar os pedidos de cada uma.
-        * **❌ O que falta:** O botão "Fechar Comanda" não funciona (será alterado para "Ir para Pagamento").
-        * **❌ O que falta:** O botão "Novo Pedido" redireciona para `/menu`, mas não passa o ID da mesa/comanda, impedindo que o pedido seja associado corretamente.
+### 4. 🎨 UI/UX Aprimorada
+- **Sidebar Retrátil:** Menu lateral animado que maximiza o espaço de tela.
+- **Design System:** Cores e componentes padronizados globalmente (`globals.css`).
 
-### 📋 Próximos Passos (To-Do)
-
-1.  **Pagamento:** Implementar a página `/payment`, que conterá a lógica final para "Fechar Mesa".
-2.  **Fluxo de Comandas:**
-    * Tornar as comandas na aba "Comandas" clicáveis para consultar os pedidos de cada uma.
-    * Corrigir o fluxo "Adicionar Pedido" (via comanda) para que o ID da mesa seja enviado corretamente para a página `/menu`.
-3.  **Botões:** Alterar o botão "Fechar Comanda" para "Ir para Pagamento" e direcioná-lo para a nova página.
+---
 
 ## 🛠️ Como Executar (Desenvolvimento)
 
