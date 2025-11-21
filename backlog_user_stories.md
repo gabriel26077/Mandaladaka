@@ -19,9 +19,8 @@ Como **garçom**, gostaria de **adicionar e remover mesas**, para organizar os a
 
 ## User Story 2 – Gerenciar Pedido
 **Descrição:**  
-Como **garçom**, gostaria de **adicionar, cancelar e concluir pedidos**, para controlar o consumo dos clientes.  
+Como **garçom**, gostaria de visualizar os pedidos pendentes em tempo real e marcar o início do preparo, para agilizar a entrega dos pratos.
 
-**Prioridade:** Alta  
 **Estimativa:** 5 pontos  
 
 **Critérios de Aceitação:**  
@@ -32,16 +31,29 @@ Como **garçom**, gostaria de **adicionar, cancelar e concluir pedidos**, para c
 
 ---
 
-## User Story 3 – Gerenciar Cardápio
+## User Story 3 – Gerenciar Fila de Preparos
 **Descrição:**  
-Como **administrador**, gostaria de **adicionar, visualizar, editar e remover itens do cardápio**, para manter as opções atualizadas.  
+Como **cozinheiro**, gostaria de **adicionar, visualizar, editar e remover itens do cardápio**, para manter as opções atualizadas.  
 
-**Prioridade:** Média  
-**Estimativa:** 3 pontos  
+**Prioridade:** Alta  
+**Estimativa:** 5 pontos  
 
 **Critérios de Aceitação:**  
-1. O usuário deve estar autenticado e possuir perfil de administrador.  
-2. O usuário deve ser capaz de visualizar os itens do cardápio.  
-3. O usuário deve ser capaz de adicionar novos itens ao cardápio.  
-4. O usuário deve ser capaz de editar itens existentes no cardápio.  
-5. O usuário deve ser capaz de alterar **visibilidade, disponibilidade e preço** dos produtos.  
+1. O usuário deve ser capaz de visualizar uma lista de pedidos com status "Pendente".
+2. O sistema deve exibir os itens e quantidades de cada pedido de forma clara (Cards).
+3. O usuário deve ser capaz de alterar o status do pedido para "Em Preparo" (Botão Iniciar Preparo).
+4. O pedido deve desaparecer da lista de pendentes após o início do preparo.
+
+## User Story 4 - Processar Fechamento de Caixa
+**Descrição**
+Como **caixa**, gostaria de visualizar o consumo total da mesa e processar o pagamento, para liberar a mesa para novos clientes.
+
+**Prioridade:** Alta  
+**Estimativa:** 5 pontos  
+
+**Critérios de Aceitação:**  
+1. O usuário deve visualizar o resumo de todos os itens consumidos na mesa.
+2. O sistema deve calcular automaticamente o subtotal e a taxa de serviço (10%).
+3. O usuário deve poder confirmar o pagamento.
+4. Ao confirmar o pagamento, o sistema deve alterar o status da mesa para "Livre" (Available).
+
