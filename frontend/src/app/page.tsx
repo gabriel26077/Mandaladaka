@@ -121,11 +121,10 @@ export default function HomePage() {
   };
   
   if (isLoading) {
-    return <main className={styles.mainContent}><p>Carregando mesas...</p></main>;
+    return <div><p>Carregando mesas...</p></div>;
   }
 
   return (
-    <main className={styles.mainContent}>
       <section className={styles.tablesSection}>
         <h2>LISTA DE MESAS</h2>
         
@@ -173,6 +172,5 @@ export default function HomePage() {
           </button>
         </div>
       </section>
-    </main>
   );
 }
