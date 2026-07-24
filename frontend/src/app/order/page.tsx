@@ -1,11 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./order.module.css";
 
-// Tipos
 type OrderItem = {
   product?: { id?: number; name?: string; price?: number } | string;
   quantity: number;
@@ -20,78 +18,57 @@ type Order = {
   items: OrderItem[];
   total_price?: number;
 };
-type TabSummary = {
-  id: number;
-  status: string;
-  number_of_people: number;
-};
 
 export default function OrdersPage() {
-  const router = useRouter();
   const [orders, setOrders] = useState<Order[]>([]);
-  const [tabs, setTabs] = useState<TabSummary[]>([]);
   const [activeTab, setActiveTab] = useState<"orders" | "tabs">("orders");
   const [isLoading, setIsLoading] = useState(true);
 
   const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
 
   const mockOrders: Order[] = [
-    { 
-      id: 101, 
-      table_number: 5, 
-      status: "PENDING", 
-      items: [{ product: { name: "Hambúrguer Clássico" }, quantity: 2 }] 
+    {
+      id: 101,
+      table_number: 5,
+      status: "PENDING",
+      items: [{ product: { name: "Hambúrguer Clássico" }, quantity: 2 }],
     },
-    { 
-      id: 102, 
-      table_number: 3, 
-      status: "PENDING", 
-      items: [{ product: { name: "Coca-Cola Zero" }, quantity: 1 }] 
-    }
-  ];
-
-  const mockTabs: TabSummary[] = [
-    { id: 1, status: "OCCUPIED", number_of_people: 2 },
-    { id: 5, status: "OCCUPIED", number_of_people: 4 },
-    { id: 8, status: "OCCUPIED", number_of_people: 1 },
+    {
+      id: 102,
+      table_number: 3,
+      status: "PENDING",
+      items: [{ product: { name: "Coca-Cola Zero" }, quantity: 1 }],
+    },
   ];
 
   const fetchData = async () => {
     setIsLoading(true);
-    
-    if (!token) { 
-        console.log("Sem token ou teste visual, carregando mocks...");
-        setOrders(mockOrders);
-        setTabs(mockTabs);
-        setIsLoading(false);
-        return;
+
+    if (!token) {
+      setOrders(mockOrders);
+      setIsLoading(false);
+      return;
     }
 
     try {
-      const [resOrders, resTabs] = await Promise.all([
-        fetch("http://localhost:5000/kitchen/orders/pending", { headers: { Authorization: `Bearer ${token}` } }),
-        fetch("http://localhost:5000/tables", { headers: { Authorization: `Bearer ${token}` } }),
-      ]);
+      const resOrders = await fetch("http://localhost:5000/kitchen/orders/pending", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-      if (resOrders.ok && resTabs.ok) {
+      if (resOrders.ok) {
         const ordersDataRaw = await resOrders.json();
-        const tabsData = await resTabs.json();
-        
         const ordersData = (ordersDataRaw || []).map((o: any) => ({
-            ...o,
-            table_number: o.table_number ?? o.table_id,
-            items: o.items || []
+          ...o,
+          table_number: o.table_number ?? o.table_id,
+          items: o.items || [],
         }));
-
         setOrders(ordersData);
-        setTabs(tabsData);
       } else {
-        throw new Error("Backend com erro 500 ou 400");
+        throw new Error("Erro ao buscar pedidos");
       }
     } catch (err) {
-      console.error("Erro na API, carregando MOCKS para visualização do design.");
+      console.error("Erro na API, carregando mocks para visualização.");
       setOrders(mockOrders);
-      setTabs(mockTabs);
     } finally {
       setIsLoading(false);
     }
@@ -101,29 +78,20 @@ export default function OrdersPage() {
     fetchData();
   }, []);
 
-  // --- FUNÇÃO NOVA PARA INICIAR PREPARO ---
   const handleStartPreparation = async (orderId: number) => {
-    // 1. Atualização Otimista: Remove da tela imediatamente para parecer rápido
     setOrders((prevOrders) => prevOrders.filter((order) => order.id !== orderId));
 
-    // 2. Tenta avisar o backend (se tiver token e API rodando)
     if (token) {
-        try {
-            await fetch(`http://localhost:5000/kitchen/orders/${orderId}/start`, {
-                method: 'POST',
-                headers: { Authorization: `Bearer ${token}` }
-            });
-        } catch (error) {
-            console.error("Erro de conexão ao iniciar preparo (mas já atualizei a tela visualmente).");
-        }
+      try {
+        await fetch(`http://localhost:5000/kitchen/orders/${orderId}/start`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      } catch (error) {
+        console.error("Erro de conexão ao iniciar preparo.");
+      }
     }
   };
-
-  const handleGoToPayment = (tableId: number) => {
-    router.push(`/payment?table=${tableId}`);
-  };
-
-  const occupiedTabs = tabs.filter((t) => (t.status || "").toString().toUpperCase() === "OCCUPIED");
 
   return (
     <main className={styles.mainContainer}>
@@ -135,11 +103,11 @@ export default function OrdersPage() {
             onClick={() => setActiveTab("orders")}
           >
             <Image
-                src="/icons/kitchen.png"
-                alt="Ícone de Cozinha"
-                width={20}
-                height={20}
-                className={styles.tabIcon}
+              src="/icons/kitchen.png"
+              alt="Ícone de Cozinha"
+              width={20}
+              height={20}
+              className={styles.tabIcon}
             />
             Cozinha ({orders.length})
           </button>
@@ -147,14 +115,14 @@ export default function OrdersPage() {
             className={`${styles.tabBtn} ${activeTab === "tabs" ? styles.active : ""}`}
             onClick={() => setActiveTab("tabs")}
           >
-            <Image 
-                src="/icons/table.png"
-                alt="Ícone de Mesa"
-                width={20}
-                height={20}
-                className={styles.tabIcon}
-             />
-            Mesas Ocupadas ({occupiedTabs.length})
+            <Image
+              src="/icons/table.png"
+              alt="Ícone de Mesa"
+              width={20}
+              height={20}
+              className={styles.tabIcon}
+            />
+            Mesas Ocupadas
           </button>
         </div>
       </div>
@@ -163,10 +131,10 @@ export default function OrdersPage() {
         {/* AREA DA COZINHA */}
         {activeTab === "orders" && (
           <div className={styles.grid}>
-            {orders.length === 0 ? (
-               <div className={styles.emptyState}>
-                 <p>Tudo limpo na cozinha!</p>
-               </div>
+            {isLoading ? (
+              <div className={styles.emptyState}>Carregando pedidos...</div>
+            ) : orders.length === 0 ? (
+              <div className={styles.emptyState}>Tudo limpo na cozinha!</div>
             ) : (
               orders.map((order) => (
                 <div key={order.id} className={styles.card}>
@@ -177,22 +145,24 @@ export default function OrdersPage() {
                   <div className={styles.cardBody}>
                     <ul>
                       {order.items.map((item, idx) => {
-                         const pName = typeof item.product === 'string' ? item.product : item.product?.name || "Item";
-                         return (
-                            <li key={idx}>
-                                <strong>{item.quantity}x</strong> {pName}
-                            </li>
-                         )
+                        const pName =
+                          typeof item.product === "string"
+                            ? item.product
+                            : item.product?.name || "Item";
+                        return (
+                          <li key={idx}>
+                            <strong>{item.quantity}x</strong> {pName}
+                          </li>
+                        );
                       })}
                     </ul>
                   </div>
                   <div className={styles.cardFooter}>
-                    {/* ADICIONEI O ONCLICK AQUI */}
-                    <button 
-                        className={styles.btnAction}
-                        onClick={() => handleStartPreparation(order.id)}
+                    <button
+                      className={styles.btnAction}
+                      onClick={() => handleStartPreparation(order.id)}
                     >
-                        Iniciar Preparo
+                      Iniciar Preparo
                     </button>
                   </div>
                 </div>
@@ -201,49 +171,23 @@ export default function OrdersPage() {
           </div>
         )}
 
-        {/* AREA DAS MESAS / COMANDAS */}
+        {/* EM BREVE — MESAS OCUPADAS */}
         {activeTab === "tabs" && (
-          <div className={styles.grid}>
-            {occupiedTabs.length === 0 ? (
-               <div className={styles.emptyState}>Nenhuma mesa aberta.</div>
-            ) : (
-              occupiedTabs.map((tab) => (
-                <div key={tab.id} className={`${styles.card} ${styles.cardTable}`}>
-                  <div className={styles.cardHeader}>
-                    <span className={styles.tableBigTitle}>Mesa {tab.id}</span>
-                    <span className={styles.peopleBadge}>
-                      <Image
-                        src="/icons/guess.png" 
-                        alt="Pessoas"
-                        width={16}
-                        height={16}
-                      />
-                      {tab.number_of_people}
-                     </span>
-                  </div>
-                  
-                  <div className={styles.cardBody}>
-                    <p className={styles.statusText}>Status: <strong>Ocupada</strong></p>
-                    <p className={styles.instructionText}>Cliente aguardando ou consumindo.</p>
-                  </div>
-
-                  <div className={styles.cardFooter}>
-                    <button 
-                        onClick={() => handleGoToPayment(tab.id)}
-                        className={styles.btnPay}
-                    >
-                        Fechar & Pagar
-                    </button>
-                    <button 
-                        className={styles.btnAdd}
-                        onClick={() => router.push(`/menu?table=${tab.id}&clients=${tab.number_of_people}`)}
-                    >
-                        + Pedido
-                    </button>
-                  </div>
-                </div>
-              ))
-            )}
+          <div className={styles.comingSoonWrapper}>
+            <div className={styles.comingSoonCard}>
+              <Image
+                src="/icons/table.png"
+                alt="Mesas Ocupadas"
+                width={56}
+                height={56}
+                className={styles.comingSoonIcon}
+              />
+              <h2 className={styles.comingSoonTitle}>Mesas Ocupadas</h2>
+              <p className={styles.comingSoonText}>
+                Esta funcionalidade está em desenvolvimento e estará disponível em breve.
+              </p>
+              <span className={styles.comingSoonBadge}>Em breve</span>
+            </div>
           </div>
         )}
       </div>
